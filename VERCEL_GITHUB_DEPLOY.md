@@ -7,6 +7,11 @@ This repository should be deployed to Vercel as two separate projects from the s
 
 ## 1. Push the repository to GitHub
 
+Never commit real `.env` secrets. Use the example files below as references only:
+
+- `backend/.env.vercel.example`
+- `frontend/.env.vercel.example`
+
 From the repository root:
 
 ```bash
