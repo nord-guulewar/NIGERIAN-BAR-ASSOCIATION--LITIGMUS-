@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboard.css';
@@ -12,22 +12,9 @@ const SecretaryDashboard = () => {
   const [upcomingHearings, setUpcomingHearings] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedCase, setSelectedCase] = useState(null);
-  const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showNotifyModal, setShowNotifyModal] = useState(false);
 
-  const [scheduleData, setScheduleData] = useState({
-    hearingDate: '',
-    hearingTime: '09:00',
-    notes: ''
-  });
-
-  useEffect(() => {
-    fetchDashboardData();
-    fetchTodaysHearings();
-    fetchUpcomingHearings();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/secretary-dashboard/summary', {
@@ -41,9 +28,9 @@ const SecretaryDashboard = () => {
         navigate('/login');
       }
     }
-  };
+  }, [navigate]);
 
-  const fetchTodaysHearings = async () => {
+  const fetchTodaysHearings = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/secretary-dashboard/todays-hearings', {
@@ -53,9 +40,9 @@ const SecretaryDashboard = () => {
     } catch (error) {
       console.error('Error fetching hearings:', error);
     }
-  };
+  }, []);
 
-  const fetchUpcomingHearings = async () => {
+  const fetchUpcomingHearings = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/secretary-dashboard/upcoming-hearings?days=30', {
@@ -65,27 +52,13 @@ const SecretaryDashboard = () => {
     } catch (error) {
       console.error('Error fetching upcoming hearings:', error);
     }
-  };
+  }, []);
 
-  const handleScheduleHearing = async (e) => {
-    e.preventDefault();
-    try {
-      const token = getSessionToken();
-      await axios.post(
-        `/api/secretary-dashboard/schedule-hearing/${selectedCase._id}`,
-        scheduleData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      alert('Hearing scheduled successfully!');
-      setShowScheduleModal(false);
-      setSelectedCase(null);
-      fetchTodaysHearings();
-      fetchUpcomingHearings();
-      setScheduleData({ hearingDate: '', hearingTime: '09:00', notes: '' });
-    } catch (error) {
-      alert('Error scheduling hearing: ' + (error.response?.data?.message || error.message));
-    }
-  };
+  useEffect(() => {
+    fetchDashboardData();
+    fetchTodaysHearings();
+    fetchUpcomingHearings();
+  }, [fetchDashboardData, fetchTodaysHearings, fetchUpcomingHearings]);
 
   const handleNotifyLawyers = async (caseId, notificationType) => {
     try {

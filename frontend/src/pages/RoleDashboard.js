@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Card, Row, Col, Table, Badge, Button, Spinner, Alert } from 'react-bootstrap';
@@ -107,13 +107,35 @@ const RoleDashboard = ({ role }) => {
   const [error, setError] = useState('');
   const [serviceSla, setServiceSla] = useState(null);
 
-  useEffect(() => {
-    const userData = getSessionUser();
-    setUser(userData);
-    loadDashboard();
-  }, [role]);
+  const loadList = useCallback(async () => {
+    try {
+      const data = await request(config.listPath);
+      setListData(data[config.listKey] || []);
+    } catch (err) {
+      setListData([]);
+    }
+  }, [config.listKey, config.listPath]);
 
-  const loadDashboard = async () => {
+  const loadStaff = useCallback(async () => {
+    const data = await request('/dashboard/admin/staff');
+    setStaff(data.staff || []);
+  }, []);
+
+  const loadAnalytics = useCallback(async () => {
+    const data = await request('/dashboard/admin/analytics');
+    setAnalytics(data);
+  }, []);
+
+  const loadServiceSla = useCallback(async () => {
+    try {
+      const data = await request('/dashboard/bailiff/service-sla');
+      setServiceSla(data);
+    } catch (err) {
+      setServiceSla(null);
+    }
+  }, []);
+
+  const loadDashboard = useCallback(async () => {
     try {
       setLoading(true);
       setError('');
@@ -129,36 +151,13 @@ const RoleDashboard = ({ role }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [activeTab, config.listPath, config.summaryPath, loadAnalytics, loadList, loadServiceSla, loadStaff, navigate, role]);
 
-  const loadList = async () => {
-    try {
-      const data = await request(config.listPath);
-      setListData(data[config.listKey] || []);
-    } catch (err) {
-      setListData([]);
-    }
-  };
-
-  const loadStaff = async () => {
-    const data = await request('/dashboard/admin/staff');
-    setStaff(data.staff || []);
-  };
-
-  const loadAnalytics = async () => {
-    const data = await request('/dashboard/admin/analytics');
-    setAnalytics(data);
-  };
-
-  const loadServiceSla = async () => {
-    try {
-      const data = await request('/dashboard/bailiff/service-sla');
-      setServiceSla(data);
-    } catch (err) {
-      // Keep the dashboard usable even if SLA endpoint is not yet available on backend.
-      setServiceSla(null);
-    }
-  };
+  useEffect(() => {
+    const userData = getSessionUser();
+    setUser(userData);
+    loadDashboard();
+  }, [loadDashboard]);
 
   const handleArchive = async (caseId) => {
     const location = window.prompt('Archive location');

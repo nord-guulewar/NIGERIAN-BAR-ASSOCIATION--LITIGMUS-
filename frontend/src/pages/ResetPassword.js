@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Container, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { Lock, CheckCircle, ArrowLeft, Eye, EyeOff } from 'lucide-react';
@@ -15,22 +15,14 @@ const ResetPassword = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Form data
-  const [token, setToken] = useState(searchParams.get('token') || '');
-  const [email, setEmail] = useState(searchParams.get('email') || '');
+  const [token] = useState(searchParams.get('token') || '');
+  const [email] = useState(searchParams.get('email') || '');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [userData, setUserData] = useState(null);
 
   // Verify token on mount
-  useEffect(() => {
-    if (token && email) {
-      verifyToken();
-    } else {
-      setError('Invalid reset link. Please request a new password reset.');
-    }
-  }, [token, email]);
-
-  const verifyToken = async () => {
+  const verifyToken = useCallback(async () => {
     setLoading(true);
     try {
       const response = await authAPI.verifyResetToken({ token, email });
@@ -46,7 +38,15 @@ const ResetPassword = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [email, token]);
+
+  useEffect(() => {
+    if (token && email) {
+      verifyToken();
+    } else {
+      setError('Invalid reset link. Please request a new password reset.');
+    }
+  }, [token, email, verifyToken]);
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -73,8 +73,6 @@ const ResetPassword = () => {
     const hasUpperCase = /[A-Z]/.test(newPassword);
     const hasLowerCase = /[a-z]/.test(newPassword);
     const hasNumbers = /\d/.test(newPassword);
-    const hasSpecialChar = /[!@#$%^&*]/.test(newPassword);
-
     if (!hasUpperCase || !hasLowerCase || !hasNumbers) {
       setError('Password must contain uppercase, lowercase, and numbers');
       return;
