@@ -1,0 +1,154 @@
+services:
+  # Frontend SPA
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nba-frontend
+    restart: unless-stopped
+    networks:
+      - nba-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+  # PgBouncer – connection pooler between the app and Postgres.
+  # The backend connects to pgbouncer:5432, not directly to postgres:5432.
+  # This means 500 app-side client slots map to only 80 real Postgres backends,
+  # keeping Postgres well under its default max_connections limit even when
+  # multiple Docker replicas or PM2 workers are running.
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    container_name: nba-pgbouncer
+    restart: unless-stopped
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=${POSTGRES_DB:-nba_litigmus}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - PGBOUNCER_ADMIN_PASSWORD=${PGBOUNCER_ADMIN_PASSWORD:-pgbouncer_admin_secret}
+    volumes:
+      - ./pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini:ro
+      - ./pgbouncer/entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: ["/bin/sh", "/entrypoint.sh"]
+    depends_on:
+      - postgres
+    networks:
+      - nba-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 64M
+
+  # PostgreSQL primary
+  postgres:
+    image: postgres:16-alpine
+    container_name: nba-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-nba_litigmus}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - nba-network
+    # Not exposed externally — the app connects via pgbouncer
+    shm_size: 256m
+    command: >
+      postgres
+        -c max_connections=110
+        -c shared_buffers=256MB
+        -c effective_cache_size=768MB
+        -c work_mem=4MB
+        -c maintenance_work_mem=64MB
+        -c checkpoint_completion_target=0.9
+        -c wal_buffers=16MB
+        -c default_statistics_target=100
+        -c random_page_cost=1.1
+        -c effective_io_concurrency=200
+        -c min_wal_size=1GB
+        -c max_wal_size=4GB
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nba-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      # Route through PgBouncer, not directly to Postgres
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@pgbouncer:5432/${POSTGRES_DB:-nba_litigmus}
+      - CLUSTER_WORKERS=2
+      - DB_POOL_BUDGET=80
+    depends_on:
+      - pgbouncer
+      - redis
+    networks:
+      - nba-network
+    volumes:
+      - ./backend/logs:/app/logs
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: nba-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    networks:
+      - nba-network
+    volumes:
+      - redis-data:/data
+
+  # Nginx Load Balancer
+  nginx:
+    image: nginx:alpine
+    container_name: nba-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - nba-network
+
+networks:
+  nba-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:

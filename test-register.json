@@ -1,0 +1,15 @@
+{
+  "firstName": "Test",
+  "lastName": "Judge",
+  "email": "testjudge@nba.gov.ng",
+  "password": "TestPassword123!",
+  "role": "judge",
+  "phoneNumber": "+2348012345678",
+  "state": "LA",
+  "court": "SHC",
+  "lga": "IKJ",
+  "courtDivision": "Lagos Judicial Division",
+  "department": "Civil",
+  "barAdmissionYear": 2015,
+  "supremeCourtNumber": "SC/12345/2015"
+}

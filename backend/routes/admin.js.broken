@@ -1,0 +1,915 @@
+const express = require('express');
+const crypto = require('crypto');
+const router = express.Router();
+const User = require('../models/User');
+const { protect, authorize } = require('../middleware/auth');
+const {
+  canAdminGenerateCredentials,
+  registerAdminCredentialGeneration,
+  getCredentialControls
+} = require('../utils/credentialPolicy');
+const {
+  validateRequestBody,
+  validateParams,
+  validateQuery,
+  allowedFields,
+  userRateLimit,
+  PATTERNS
+} = require('../middleware/inputValidation');
+
+// ============ SECURITY HELPERS ============
+
+const validatePasswordStrength = (password) => {
+  const errors = [];
+  if (password.length < 12) errors.push('at least 12 characters');
+  if (!/[A-Z]/.test(password)) errors.push('uppercase letter');
+  if (!/[a-z]/.test(password)) errors.push('lowercase letter');
+  if (!/\d/.test(password)) errors.push('number');
+  if (!/[@$!%*?&^#_+=()]/.test(password)) errors.push('special character (@$!%*?&^#_+=())');
+  return { valid: errors.length === 0, missing: errors };
+};
+
+const generateStaffId = (role = 'STAFF') => {
+  const normalized = role.replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 4) || 'STAF';
+  return `NBA-${normalized}-${Date.now().toString().slice(-6)}-${crypto.randomBytes(2).toString('hex').toUpperCase()}`;
+};
+
+const generateRecoveryCode = () => {
+  return `RC-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
+};
+
+const appendIssue = (user, issue) => {
+  const notes = Array.isArray(user.paymentIssueNotes) ? [...user.paymentIssueNotes] : [];
+  notes.push(issue);
+  user.paymentIssueNotes = notes;
+};
+
+const updateIssueByIndex = (user, issueIndex, updates) => {
+  const notes = Array.isArray(user.paymentIssueNotes) ? [...user.paymentIssueNotes] : [];
+  if (issueIndex < 0 || issueIndex >= notes.length) {
+    return false;
+  }
+
+  notes[issueIndex] = {
+    ...notes[issueIndex],
+    ...updates
+  };
+  user.paymentIssueNotes = notes;
+  return true;
+};
+
+const pickUserPayload = (u) => ({
+  id: u.id || u._id,
+  firstName: u.firstName,
+  lastName: u.lastName,
+  email: u.email,
+  role: u.role,
+  state: u.state,
+  lga: u.lga,
+  court: u.court,
+  department: u.department,
+  isActive: u.isActive,
+  isVerified: u.isVerified,
+  accountStatus: u.accountStatus,
+  createdAt: u.createdAt,
+  staffId: u.staffId,
+  staffIdGenerationCode: u.staffIdGenerationCode,
+  offlineRecoveryCode: u.offlineRecoveryCode,
+  emailVerificationRisk: u.emailVerificationRisk,
+  lastLoginIp: u.lastLoginIp,
+  lastUserAgent: u.lastUserAgent,
+  paymentIssueStatus: u.paymentIssueStatus,
+  paymentIssueNotes: u.paymentIssueNotes,
+  compromiseReason: u.compromiseReason,
+  adminConfirmedBy: u.adminConfirmedBy,
+  adminConfirmedAt: u.adminConfirmedAt,
+  pendingStaffId: u.pendingStaffId,
+  staffIdRequestStatus: u.staffIdRequestStatus,
+  staffIdRequestedAt: u.staffIdRequestedAt,
+  staffIdApprovedAt: u.staffIdApprovedAt,
+  loginActivity: u.loginActivity,
+  credentialSelfServiceStartedAt: u.credentialSelfServiceStartedAt,
+  credentialSelfServiceExpiresAt: u.credentialSelfServiceExpiresAt,
+  staffIdSelfGenerationCount: u.staffIdSelfGenerationCount,
+  recoveryCodeSelfGenerationCount: u.recoveryCodeSelfGenerationCount,
+  adminCredentialGenerationCount: u.adminCredentialGenerationCount,
+  credentialControls: getCredentialControls(u)
+});
+
+// ============ ROUTES ============
+
+// ADMIN ONLY: View all registered users
+router.get('/users', 
+  protect, 
+  authorize('admin'),
+  validateQuery({
+    role: {
+      required: false,
+      pattern: PATTERNS.role
+    },
+    state: {
+      required: false
+    },
+    lga: {
+      required: false
+    },
+    department: {
+      required: false
+    },
+    court: {
+      required: false
+    },
+    staffIdRequestStatus: {
+      required: false,
+      enum: ['pending', 'pending_approval', 'approved', 'rejected']
+    },
+    isActive: {
+      required: false,
+      enum: ['true', 'false']
+    }
+  }),
+  async (req, res) => {
+  try {
+    const {
+      role,
+      state,
+      lga,
+      department,
+      court,
+      staffIdRequestStatus,
+      isActive
+    } = req.query;
+
+    const filters = {};
+    if (role) filters.role = role;
+    if (state) filters.state = state;
+    if (lga) filters.lga = lga;
+    if (department) filters.department = department;
+    if (court) filters.court = court;
+    if (staffIdRequestStatus) filters.staffIdRequestStatus = staffIdRequestStatus;
+    if (typeof isActive !== 'undefined') filters.isActive = isActive === 'true';
+
+    const users = await User.find(filters).select('-password');
+    res.status(200).json({
+      success: true,
+      total: users.length,
+      data: users.map(pickUserPayload)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: View pending account confirmations
+router.get('/users/pending-confirmations', protect, authorize('admin'), async (req, res) => {
+  try {
+    const users = await User.find({ isVerified: false }).select('-password');
+    res.status(200).json({
+      success: true,
+      total: users.length,
+      data: users.map(pickUserPayload)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: View suspicious users by risk score and login signals
+router.get('/users/suspicious', protect, authorize('admin'), async (req, res) => {
+  try {
+    const users = await User.find().select('-password');
+    const suspicious = users
+      .filter((u) => {
+        const risk = u.emailVerificationRisk || {};
+        return risk.score >= 40 || risk.signals?.deviceChange || risk.signals?.ipGeoMismatch;
+      })
+      .map(pickUserPayload);
+
+    res.status(200).json({
+      success: true,
+      total: suspicious.length,
+      data: suspicious
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Create a user manually with ENHANCED SECURITY validation
+router.post('/users/manual-create', 
+  protect, 
+  authorize('admin'),
+  userRateLimit(10, 60000, 'user-creation'), // 10 users per minute
+  allowedFields(['firstName', 'lastName', 'email', 'password', 'role', 'state', 'court', 'department', 'phoneNumber', 'isVerified']),
+  validateRequestBody({
+    firstName: {
+      required: true,
+      type: 'string',
+      minLength: 2,
+      maxLength: 50,
+      pattern: /^[a-zA-Z\s'-]+$/
+    },
+    lastName: {
+      required: true,
+      type: 'string',
+      minLength: 2,
+      maxLength: 50,
+      pattern: /^[a-zA-Z\s'-]+$/
+    },
+    email: {
+      required: true,
+      type: 'string',
+      email: true,
+      maxLength: 254
+    },
+    password: {
+      required: true,
+      type: 'string',
+      minLength: 12,
+      maxLength: 128
+    },
+    role: {
+      required: true,
+      type: 'string',
+      pattern: PATTERNS.role
+    },
+    state: {
+      required: false,
+      type: 'string',
+      maxLength: 50
+    },
+    court: {
+      required: false,
+      type: 'string',
+      maxLength: 100
+    },
+    department: {
+      required: false,
+      type: 'string',
+      maxLength: 100
+    },
+    phoneNumber: {
+      required: false,
+      type: 'string',
+      pattern: PATTERNS.phone
+    },
+    isVerified: {
+      required: false,
+      type: 'boolean'
+    }
+  }),
+  async (req, res) => {
+  try {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      state,
+      court,
+      department,
+      phoneNumber,
+      isVerified = false
+    } = req.body;
+
+    // ============ VALIDATION ============
+    if (!firstName || !lastName || !email || !password || !role) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'firstName, lastName, email, password and role are required' 
+      });
+    }
+
+    // Validate email format strictly
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Invalid email format' 
+      });
+    }
+
+    // STRICTER PASSWORD VALIDATION
+    const passwordValidation = validatePasswordStrength(password);
+    if (!passwordValidation.valid) {
+      return res.status(400).json({
+        success: false,
+        message: `Password must contain: ${passwordValidation.missing.join(', ')}`,
+        requirements: {
+          minLength: 12,
+          uppercase: true,
+          lowercase: true,
+          numbers: true,
+          specialChars: '@$!%*?&^#_+=()'
+        }
+      });
+    }
+
+    // Check for duplicate email
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.status(409).json({ 
+        success: false, 
+        message: 'A user with that email already exists' 
+      });
+    }
+
+    // Validate role
+    const validRoles = ['admin', 'judge', 'registrar', 'clerk', 'accountant', 'bailiff', 'secretary', 'cashier'];
+    if (!validRoles.includes(role.toLowerCase())) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid role. Must be one of: ${validRoles.join(', ')}`
+      });
+    }
+
+    // Validate state and court if provided
+    if (state && typeof state !== 'string') {
+      return res.status(400).json({ success: false, message: 'state must be a string' });
+    }
+    if (court && typeof court !== 'string') {
+      return res.status(400).json({ success: false, message: 'court must be a string' });
+    }
+
+    // ============ USER CREATION ============
+    const staffId = generateStaffId(role);
+    const offlineRecoveryCode = generateRecoveryCode();
+    const staffIdGenerationCode = crypto.randomBytes(6).toString('hex').toUpperCase();
+
+    const user = await User.create({
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.toLowerCase().trim(),
+      password,
+      role: role.toLowerCase(),
+      state: state ? state.trim() : null,
+      court: court ? court.trim() : null,
+      department: department ? department.trim() : null,
+      phoneNumber: phoneNumber ? phoneNumber.trim() : null,
+      isVerified,
+      isActive: true,
+      accountStatus: isVerified ? 'active' : 'pending',
+      staffId,
+      staffIdGenerationCode,
+      offlineRecoveryCode,
+      offlineRecoveryCodeExpires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      manualOnboardedBy: req.user.id
+    });
+
+    // Log admin action
+    console.log(`[ADMIN AUDIT] User created by ${req.user.email} (${req.user.id}): ${user.email} (${user.id})`);
+
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully with strong credentials',
+      data: pickUserPayload(user)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Generate or regenerate staff ID and recovery code for a user
+router.post('/users/:id/generate-credentials', 
+  protect, 
+  authorize('admin'),
+  validateParams('id'),
+  userRateLimit(20, 60000, 'credential-generation'), // 20 per minute
+  validateRequestBody({
+    force: {
+      required: false,
+      type: 'boolean'
+    }
+  }),
+  async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { force = false } = req.body;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (user.staffId && user.offlineRecoveryCode && !force) {
+      return res.status(200).json({
+        success: true,
+        message: 'User already has staff credentials. Use force=true to regenerate',
+        data: pickUserPayload(user)
+      });
+    }
+
+    const policyCheck = canAdminGenerateCredentials(user, new Date());
+    if (!policyCheck.allowed) {
+      return res.status(403).json({
+        success: false,
+        message: policyCheck.message,
+        controls: policyCheck.controls
+      });
+    }
+
+    user.staffId = generateStaffId(user.role);
+    user.pendingStaffId = null;
+    user.staffIdRequestStatus = 'approved';
+    user.staffIdApprovedAt = new Date();
+    user.staffIdApprovedBy = req.user.id;
+    user.offlineRecoveryCode = generateRecoveryCode();
+    user.staffIdGenerationCode = crypto.randomBytes(6).toString('hex').toUpperCase();
+    user.offlineRecoveryCodeExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    user.accountStatus = user.accountStatus === 'isolated' ? 'isolated' : 'active';
+    registerAdminCredentialGeneration(user);
+
+    await user.save();
+
+    // Log admin action
+    console.log(`[ADMIN AUDIT] Credentials regenerated for ${user.email} by ${req.user.email}`);
+
+    res.status(200).json({
+  protect, 
+  authorize('admin'),
+  validateParams('id'),
+  userRateLimit(30, 60000, 'staff-id-approval'),
+ 
+      success: true,
+      message: `Staff credentials generated successfully. Admin regenerations used: ${user.adminCredentialGenerationCount}/5.`,
+      data: pickUserPayload(user)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Approve pending staff ID
+router.post('/users/:id/approve-staff-id', protect, authorize('admin'), async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (!user.pendingStaffId || user.staffIdRequestStatus !== 'pending_approval') {
+      return res.status(400).json({ success: false, message: 'No pending staff ID request found for this user' });
+    }
+
+    user.staffId = user.pendingStaffId;
+    user.pendingStaffId = null;
+    user.staffIdRequestStatus = 'approved';
+    user.staffIdApprovedAt = new Date();
+    user.staffIdApprovedBy = req.user.id;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Staff ID approved successfully',
+      data: pickUserPayload(user)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false,
+  protect, 
+  authorize('admin'),
+  validateParams('id'),
+  userRateLimit(30, 60000, 'staff-id-rejection'),
+  validateRequestBody({
+    reason: {
+      required: false,
+      type: 'string',
+      maxLength: 500
+    }
+  }),
+ 
+  }
+});
+
+// ADMIN ONLY: Reject pending staff ID
+router.post('/users/:id/reject-staff-id', protect, authorize('admin'), async (req, res) => {
+  try {
+    const { reason } = req.body;
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (!user.pendingStaffId || user.staffIdRequestStatus !== 'pending_approval') {
+      return res.status(400).json({ success: false, message: 'No pending staff ID request found for this user' });
+    }
+
+    user.pendingStaffId = null;
+    user.staffIdRequestStatus = 'rejected';
+    appendIssue(user, {
+      type: 'staff_id_rejected',
+      note: reason || 'Staff ID request rejected by admin',
+      updatedBy: req.user.id,
+      updatedAt: new Date()
+    });
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Staff ID request rejected',
+      data: pickUserPayload(user)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Confirm account after manual review
+router.post('/users/:id/confirm', protect, authorize('admin'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { confirmStaffCredentials = false } = req.body;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    user.isVerified = true;
+    user.isActive = true;
+    user.accountStatus = 'active';
+    user.adminConfirmedBy = req.user.id;
+    user.adminConfirmedAt = new Date();
+
+    if (!user.staffId || !user.offlineRecoveryCode) {
+      user.staffId = user.staffId || generateStaffId(user.role);
+      user.offlineRecoveryCode = user.offlineRecoveryCode || generateRecoveryCode();
+      user.staffIdGenerationCode = user.staffIdGenerationCode || crypto.randomBytes(6).toString('hex').toUpperCase();
+      user.offlineRecoveryCodeExpires = user.offlineRecoveryCodeExpires || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    }
+
+    await user.save();
+
+    // Log admin action
+    console.log(`[ADMIN AUDIT] Account confirmed for ${user.email} by ${req.user.email}`);
+
+  protect, 
+  authorize('admin'),
+  validateParams('id'),
+  userRateLimit(20, 60000, 'account-isolation'),
+  validateRequestBody({
+    reason: {
+      required: true,
+      type: 'string',
+      minLength: 10,
+      maxLength: 500
+    }
+  }),
+ 
+    res.status(200).json({
+      success: true,
+      message: 'User account confirmed successfully',
+      data: pickUserPayload(user)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Isolate a suspected compromised account
+router.patch('/users/:id/isolate', protect, authorize('admin'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+    
+    if (!reason) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Isolation reason is required' 
+      });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    user.isActive = false;
+    user.accountStatus = 'isolated';
+    user.compromiseReason = reason;
+
+    await user.save();
+
+    // Log admin action
+    console.log(`[ADMIN AUDIT] Account isolated for ${user.email} by ${req.user.email}. Reason: ${reason}`);
+
+    res.status(200).json({ 
+      success: true, 
+      message: 'User isolated successfully', 
+      data: pickUserPayload(user) 
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Reactivate isolated account
+router.patch('/users/:id/reactivate', protect, authorize('admin'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+  protect, 
+  authorize('admin'),
+  validateParams('id'),
+  userRateLimit(50, 60000, 'payment-issue-update'),
+  validateRequestBody({
+    paymentIssueStatus: {
+      required: true,
+      type: 'string',
+      enum: ['none', 'pending', 'investigating', 'resolved']
+    },
+    paymentIssueNote: {
+      required: false,
+      type: 'string',
+      maxLength: 1000
+    },
+    escalateToTech: {
+      required: false,
+      type: 'boolean'
+    },
+    category: {
+      required: false,
+      type: 'string',
+      maxLength: 50
+    },
+    issueId: {
+      required: false,
+      type: 'string',
+      maxLength: 100
+    }
+  }),
+ 
+    user.isActive = true;
+    user.accountStatus = 'active';
+    user.compromiseReason = null;
+
+    if (reason) {
+      user.paymentIssueNotes = [...(user.paymentIssueNotes || []), { action: 'reactivate', reason, by: req.user.id, at: new Date() }];
+    }
+
+    await user.save();
+
+    // Log admin action
+    console.log(`[ADMIN AUDIT] Account reactivated for ${user.email} by ${req.user.email}`);
+
+    res.status(200).json({ 
+      success: true, 
+      message: 'User reactivated successfully', 
+      data: pickUserPayload(user) 
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Mark payment issue status for a user
+router.patch('/users/:id/payment-issue', protect, authorize('admin'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { paymentIssueStatus, paymentIssueNote, escalateToTech = false, category = 'payment_issue', issueId } = req.body;
+    const allowed = ['none', 'pending', 'investigating', 'resolved'];
+    if (!allowed.includes(paymentIssueStatus)) {
+      return res.status(400).json({ success: false, message: `paymentIssueStatus must be one of ${allowed.join(', ')}` });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+  protect,
+  userRateLimit(5, 60000, 'issue-reporting'), // 5 issues per minute
+  validateRequestBody({
+    category: {
+      required: false,
+      type: 'string',
+      maxLength: 50
+    },
+    message: {
+      required: true,
+      type: 'string',
+      minLength: 5,
+      maxLength: 2000
+    }
+  }),
+ 
+    user.paymentIssueStatus = paymentIssueStatus;
+    const now = new Date();
+
+    let updatedExistingIssue = false;
+    if (issueId) {
+      const [, rawIndex] = String(issueId).split(':');
+      const issueIndex = Number.parseInt(rawIndex, 10);
+      if (Number.isInteger(issueIndex)) {
+        updatedExistingIssue = updateIssueByIndex(user, issueIndex, {
+          status: paymentIssueStatus,
+          note: paymentIssueNote || `Status changed to ${paymentIssueStatus}`,
+          escalatedToTech: Boolean(escalateToTech),
+          updatedBy: req.user.id,
+          updatedAt: now,
+          resolvedAt: paymentIssueStatus === 'resolved' ? now : undefined
+        });
+      }
+    }
+
+    if (!updatedExistingIssue) {
+      appendIssue(user, {
+        type: category,
+        status: paymentIssueStatus,
+        note: paymentIssueNote || `Status changed to ${paymentIssueStatus}`,
+        escalatedToTech: Boolean(escalateToTech),
+        updatedBy: req.user.id,
+        updatedAt: now,
+        resolvedAt: paymentIssueStatus === 'resolved' ? now : undefined
+      });
+    }
+
+    await user.save();
+
+    // Log admin action
+    console.log(`[ADMIN AUDIT] Payment issue status updated for ${user.email} to ${paymentIssueStatus}`);
+
+    res.status(200).json({ success: true, message: 'Payment issue status updated', data: pickUserPayload(user) });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// AUTHENTICATED USERS: Report assignment/payment/technical issues to admin
+router.post('/issues/report', protect, async (req, res) => {
+  try {
+    const { category = 'general', message } = req.body;
+    if (!message || message.trim().length < 5) {
+      return res.status(4
+  protect, 
+  authorize('admin'),
+  validateParams('id'),
+ essage: 'Issue message must be at least 5 characters' });
+    }
+
+    const user = await User.findById(req.user.id || req.user._id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    appendIssue(user, {
+      type: category,
+      status: 'pending',
+      note: message.trim(),
+      createdBy: user.id,
+      createdAt: new Date(),
+  protect, 
+  authorize('admin'),
+  validateParams('id'),
+  userRateLimit(10, 60000, 'user-deletion'), // 10 deletions per minute max
+ 
+      escalatedToTech: false
+    });
+
+    user.paymentIssueStatus = 'pending';
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Issue submitted to admin successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: List all reported issues across users
+router.get('/issues', protect, authorize('admin'), async (req, res) => {
+  try {
+    const users = await User.find({ paymentIssueNotes: { $exists: true, $ne: [] } }).select('-password');
+    const issues = [];
+
+    users.forEach((u) => {
+      const notes = Array.isArray(u.paymentIssueNotes) ? u.paymentIssueNotes : [];
+      notes.forEach((n, idx) => {
+        if (!n || !n.type) return;
+        if (n.status === 'resolved' || n.action === 'reactivate' || n.type === 'staff_id_rejected') return;
+
+        issues.push({
+          issueId: `${u.id}:${idx}`,
+          userId: u.id,
+          userName: `${u.firstName || ''} ${u.lastName || ''}`.trim(),
+          userEmail: u.email,
+          role: u.role,
+          state: u.state,
+          lga: u.lga,
+          court: u.court,
+          department: u.department,
+          ...n
+        });
+      });
+    });
+
+    res.status(200).json({ success: true, total: issues.length, data: issues });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Get user by ID
+router.get('/users/:id', protect, authorize('admin'), async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    res.status(200).json({ success: true, data: pickUserPayload(user) });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Delete user by ID with confirmation requirement
+router.delete('/users/:id', protect, authorize('admin'), async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ success: false, message: 'User ID required' });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (user.id === req.user.id) {
+      return res.status(403).json({ success: false, message: 'Cannot delete your own account' });
+    }
+
+    // Log admin action before deletion
+    const deletedUserInfo = `${user.firstName} ${user.lastName} (${user.email}, role: ${user.role})`;
+    console.log(`[ADMIN AUDIT] User deleted by ${req.user.email}: ${deletedUserInfo}`);
+
+    await user.destroy ? user.destroy() : User.findByIdAndDelete(id);
+    
+    res.status(200).json({ success: true, message: `User deleted successfully` });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Delete multiple users by role/state
+router.post('/users/batch-delete', protect, authorize('admin'), async (req, res) => {
+  try {
+    const { filters } = req.body;
+    if (!filters) {
+      return res.status(400).json({ success: false, message: 'Filters required (e.g., role, state, isVerified)' });
+    }
+    
+    // Log batch deletion
+    console.log(`[ADMIN AUDIT] Batch deletion initiated by ${req.user.email} with filters:`, filters);
+    
+    const result = await User.deleteMany(filters);
+    res.status(200).json({ 
+      success: true, 
+      message: `${result.deletedCount} users deleted`, 
+      deletedCount: result.deletedCount 
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ADMIN ONLY: Approve admin unlock request after document review
+router.post('/users/:id/approve-admin-unlock', protect, authorize('admin'), async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (user.role !== 'admin') {
+      return res.status(400).json({ success: false, message: 'Target user is not an admin' });
+    }
+
+    if (!user.adminUnlockDocumentsRequired) {
+      return res.status(400).json({ success: false, message: 'No pending admin unlock request for this user' });
+    }
+
+    user.adminFailedLoginAttempts = 0;
+    user.adminLockedUntil = null;
+    user.adminUnlockDocumentsRequired = false;
+    user.adminUnlockDocumentMeta = {
+      ...(user.adminUnlockDocumentMeta || {}),
+      approvedBy: req.user.id,
+      approvedAt: new Date()
+    };
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Admin unlock approved successfully',
+      data: pickUserPayload(user)
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+module.exports = router;

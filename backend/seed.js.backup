@@ -1,0 +1,182 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
+
+const User = require('./models/User');
+const Judge = require('./models/Judge');
+const nigerianStates = require('./config/states');
+
+const seedUsers = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log('Connected to MongoDB');
+
+    await User.deleteMany({});
+    await Judge.deleteMany({});
+
+    console.log('Cleared existing data');
+
+    const users = [
+      {
+        firstName: 'Admin',
+        lastName: 'User',
+        email: 'admin@nba.org.ng',
+        password: 'Admin@123',
+        role: 'admin',
+        phoneNumber: '08012345678',
+        state: 'FC',
+        court: 'FHC',
+        isActive: true
+      },
+      {
+        firstName: 'John',
+        lastName: 'Registrar',
+        email: 'registrar@nba.org.ng',
+        password: 'Registrar@123',
+        role: 'registrar',
+        phoneNumber: '08023456789',
+        state: 'LA',
+        court: 'SHC',
+        isActive: true
+      },
+      {
+        firstName: 'Sarah',
+        lastName: 'Clerk',
+        email: 'clerk@nba.org.ng',
+        password: 'Clerk@123',
+        role: 'clerk',
+        phoneNumber: '08034567890',
+        state: 'LA',
+        court: 'SHC',
+        isActive: true
+      },
+      {
+        firstName: 'Michael',
+        lastName: 'Accountant',
+        email: 'accountant@nba.org.ng',
+        password: 'Accountant@123',
+        role: 'accountant',
+        phoneNumber: '08045678901',
+        state: 'FC',
+        court: 'FHC',
+        isActive: true
+      },
+      {
+        firstName: 'David',
+        lastName: 'Bailiff',
+        email: 'bailiff@nba.org.ng',
+        password: 'Bailiff@123',
+        role: 'bailiff',
+        phoneNumber: '08056789012',
+        state: 'LA',
+        court: 'MC',
+        isActive: true
+      },
+      {
+        firstName: 'Grace',
+        lastName: 'Secretary',
+        email: 'secretary@nba.org.ng',
+        password: 'Secretary@123',
+        role: 'secretary',
+        phoneNumber: '08067890123',
+        state: 'FC',
+        court: 'FHC',
+        isActive: true
+      }
+    ];
+
+    const createdUsers = await User.create(users);
+    console.log(`Created ${createdUsers.length} users`);
+
+    const judges = [
+      {
+        firstName: 'Oluwaseun',
+        lastName: 'Adeyemi',
+        title: 'Justice',
+        email: 'judge.adeyemi@nba.org.ng',
+        phoneNumber: '08078901234',
+        courtType: 'SHC',
+        state: 'LA',
+        specialization: ['Civil', 'Commercial', 'Land'],
+        maxDailyCases: 5,
+        appointmentDate: new Date('2015-01-15'),
+        isActive: true
+      },
+      {
+        firstName: 'Amina',
+        lastName: 'Mohammed',
+        title: 'Judge',
+        email: 'judge.mohammed@nba.org.ng',
+        phoneNumber: '08089012345',
+        courtType: 'FHC',
+        state: 'FC',
+        specialization: ['Criminal', 'Constitutional'],
+        maxDailyCases: 4,
+        appointmentDate: new Date('2017-03-20'),
+        isActive: true
+      },
+      {
+        firstName: 'Chukwuemeka',
+        lastName: 'Okafor',
+        title: 'Judge',
+        email: 'judge.okafor@nba.org.ng',
+        phoneNumber: '08090123456',
+        courtType: 'SHC',
+        state: 'AN',
+        specialization: ['Family', 'Civil'],
+        maxDailyCases: 6,
+        appointmentDate: new Date('2018-06-10'),
+        isActive: true
+      },
+      {
+        firstName: 'Blessing',
+        lastName: 'Eze',
+        title: 'Magistrate',
+        email: 'magistrate.eze@nba.org.ng',
+        phoneNumber: '08001234567',
+        courtType: 'MC',
+        state: 'LA',
+        specialization: ['Criminal', 'Civil'],
+        maxDailyCases: 8,
+        appointmentDate: new Date('2019-09-01'),
+        isActive: true
+      },
+      {
+        firstName: 'Ibrahim',
+        lastName: 'Yusuf',
+        title: 'Judge',
+        email: 'judge.yusuf@nba.org.ng',
+        phoneNumber: '08012345670',
+        courtType: 'FHC',
+        state: 'KN',
+        specialization: ['Tax', 'Commercial'],
+        maxDailyCases: 5,
+        appointmentDate: new Date('2016-11-25'),
+        isActive: true
+      }
+    ];
+
+    const createdJudges = await Judge.create(judges);
+    console.log(`Created ${createdJudges.length} judges`);
+
+    console.log('\n=== SEED DATA CREATED SUCCESSFULLY ===\n');
+    console.log('Login Credentials:');
+    console.log('-------------------');
+    users.forEach(user => {
+      console.log(`${user.role.toUpperCase()}: ${user.email} / ${user.password}`);
+    });
+    console.log('\n');
+
+    mongoose.connection.close();
+    process.exit(0);
+  } catch (error) {
+    console.error('Seed error:', error);
+    process.exit(1);
+  }
+};
+
+seedUsers();

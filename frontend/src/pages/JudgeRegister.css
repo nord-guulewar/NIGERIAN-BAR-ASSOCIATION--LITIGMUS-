@@ -1,0 +1,86 @@
+.judge-register-page {
+  min-height: 100vh;
+  padding: 80px 0;
+  background:
+    radial-gradient(circle at top right, rgba(212, 175, 55, 0.22), transparent 30%),
+    linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+.judge-register-card {
+  border: none;
+  border-radius: 28px;
+  box-shadow: 0 28px 80px rgba(15, 41, 24, 0.14);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.judge-register-header h1 {
+  color: #1a472a;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+}
+
+.judge-register-header p {
+  color: #64748b;
+  margin-bottom: 0;
+}
+
+.judge-register-footer {
+  color: #64748b;
+}
+
+.judge-register-footer .btn-link {
+  color: #1a472a;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ===== Staff ID Panel ===== */
+.staff-id-panel {
+  animation: fadeIn 0.4s ease;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.06) 0%, rgba(212, 175, 55, 0.02) 100%);
+}
+
+.staff-id-panel h4 {
+  color: #1a472a;
+  font-weight: 800;
+}
+
+.generated-id-display {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.generated-id-display:hover {
+  box-shadow: 0 4px 16px rgba(26, 71, 42, 0.1);
+  border-color: #d4af37 !important;
+}
+
+.generated-id-display code {
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+}
+
+.recovery-info {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .judge-register-page {
+    padding: 40px 0;
+  }
+
+  .judge-register-card {
+    border-radius: 20px;
+    box-shadow: 0 18px 50px rgba(15, 41, 24, 0.1);
+  }
+
+  .generated-id-display code {
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+  }
+}
