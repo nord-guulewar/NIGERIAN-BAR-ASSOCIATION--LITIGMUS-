@@ -73,9 +73,15 @@ const headerSecurityCheck = (req, res, next) => {
  * Validate request origin and prevent DNS rebinding attacks
  */
 const validateOrigin = (req, res, next) => {
+  const configuredCorsWhitelist = String(process.env.CORS_WHITELIST || '')
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+
   const allowedOrigins = [
     process.env.FRONTEND_URL,
     process.env.ADMIN_URL,
+    ...configuredCorsWhitelist,
     'http://localhost:3000',
     'http://localhost:3001',
     'http://127.0.0.1:3000',
