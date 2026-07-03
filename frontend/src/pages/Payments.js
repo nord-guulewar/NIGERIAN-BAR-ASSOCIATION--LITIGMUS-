@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Badge, Card, Spinner, Alert, Row, Col } from 'react-bootstrap';
+import { Table, Badge, Card, Spinner, Alert, Row, Col } from 'react-bootstrap';
 import { paymentAPI } from '../services/api';
 import moment from 'moment';
 

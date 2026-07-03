@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Form, Button, Alert, Row, Col, Spinner, Table, Badge, Modal } from 'react-bootstrap';
-import { Gavel, FileText, Search, RefreshCw, PlusCircle, Send, CheckCircle } from 'lucide-react';
+import { Send } from 'lucide-react';
 import axios from 'axios';
 import { getSessionToken, getSessionUser } from '../utils/sessionAuth';
 

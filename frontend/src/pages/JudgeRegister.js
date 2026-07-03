@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Card, Form, Button, Alert, Row, Col, Spinner, Badge } from 'react-bootstrap';
-import { ShieldCheck, Copy, CheckCircle, Gavel, Mail, KeyRound } from 'lucide-react';
+import { ShieldCheck, Copy, CheckCircle, Mail, KeyRound } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { authAPI, stateAPI, courtAPI, lgaAPI } from '../services/api';
+import { authAPI, stateAPI, lgaAPI } from '../services/api';
 import './JudgeRegister.css';
 
 const VALID_COURTS_BY_TITLE = {
@@ -55,7 +55,6 @@ const JudgeRegister = () => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [states, setStates] = useState([]);
-  const [courts, setCourts] = useState([]);
   const [lgas, setLgas] = useState([]);
   const [recoveryInfo, setRecoveryInfo] = useState(null);
 
@@ -73,7 +72,6 @@ const JudgeRegister = () => {
 
   useEffect(() => {
     fetchStates();
-    fetchCourts();
   }, []);
 
   const fetchStates = async () => {
@@ -82,15 +80,6 @@ const JudgeRegister = () => {
       setStates(response.data.data.states || []);
     } catch (err) {
       setError('Failed to load states. Please check if backend is running.');
-    }
-  };
-
-  const fetchCourts = async () => {
-    try {
-      const response = await courtAPI.getAll();
-      setCourts(response.data.data.courts || []);
-    } catch (err) {
-      setError('Failed to load courts. Please check if backend is running.');
     }
   };
 

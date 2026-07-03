@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Row, Col, Badge, Button, Spinner, Alert, Table } from 'react-bootstrap';
 import { judgeAPI } from '../services/api';
@@ -12,12 +12,7 @@ const JudgeDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchJudgeDetails();
-    fetchWorkload();
-  }, [id]);
-
-  const fetchJudgeDetails = async () => {
+  const fetchJudgeDetails = useCallback(async () => {
     try {
       const response = await judgeAPI.getById(id);
       setJudgeData(response.data.data.judge);
@@ -26,16 +21,21 @@ const JudgeDetails = () => {
       setError('Failed to load judge details');
       setLoading(false);
     }
-  };
+  }, [id]);
 
-  const fetchWorkload = async () => {
+  const fetchWorkload = useCallback(async () => {
     try {
       const response = await judgeAPI.getWorkload(id);
       setWorkload(response.data.data);
     } catch (err) {
       console.error('Failed to load workload');
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchJudgeDetails();
+    fetchWorkload();
+  }, [fetchJudgeDetails, fetchWorkload]);
 
   if (loading) {
     return (

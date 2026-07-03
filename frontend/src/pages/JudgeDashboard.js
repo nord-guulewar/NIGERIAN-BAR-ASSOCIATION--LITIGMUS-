@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboard.css';
@@ -37,12 +37,6 @@ const JudgeDashboard = () => {
   const [fines, setFines] = useState([]);
   const [newFine, setNewFine] = useState({ finedParty: { name: '', role: 'defendant' }, amount: '', reason: '', dueDate: '' });
 
-  useEffect(() => {
-    fetchDashboardData();
-    fetchCases();
-    fetchTodaysCases();
-  }, []);
-
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good Morning';
@@ -50,7 +44,7 @@ const JudgeDashboard = () => {
     return 'Good Evening';
   };
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/judge-dashboard/summary', {
@@ -64,9 +58,9 @@ const JudgeDashboard = () => {
         navigate('/login');
       }
     }
-  };
+  }, [navigate]);
 
-  const fetchCases = async () => {
+  const fetchCases = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/judge-dashboard/cases', {
@@ -76,9 +70,9 @@ const JudgeDashboard = () => {
     } catch (error) {
       console.error('Error fetching cases:', error);
     }
-  };
+  }, []);
 
-  const fetchTodaysCases = async () => {
+  const fetchTodaysCases = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/judge-dashboard/cases/today', {
@@ -88,7 +82,13 @@ const JudgeDashboard = () => {
     } catch (error) {
       console.error('Error fetching today\'s cases:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchDashboardData();
+    fetchCases();
+    fetchTodaysCases();
+  }, [fetchCases, fetchDashboardData, fetchTodaysCases]);
 
   const fetchAvailableJudges = async () => {
     try {

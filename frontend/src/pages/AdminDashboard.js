@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { getSessionToken } from '../utils/sessionAuth';
 import './AdminDashboard.css';
@@ -66,17 +66,20 @@ const AdminDashboard = () => {
   });
 
   const token = getSessionToken();
-  const apiHeaders = { Authorization: `Bearer ${token}` };
+  const apiHeaders = useMemo(() => ({ Authorization: `Bearer ${token}` }), [token]);
 
   const updateFilter = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const getNormalizedFilters = (source = filters) => Object.fromEntries(
-    Object.entries(source).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value])
-  );
+  const normalizedFilters = useMemo(() => Object.fromEntries(
+    Object.entries(filters).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value])
+  ), [filters]);
 
-  const hasOnboardingCriteria = Object.values(getNormalizedFilters()).some(Boolean);
+  const hasOnboardingCriteria = useMemo(
+    () => Object.values(normalizedFilters).some(Boolean),
+    [normalizedFilters]
+  );
 
   const clearFilters = () => {
     setFilters({
@@ -100,9 +103,7 @@ const AdminDashboard = () => {
   const formatDate = (value) => (value ? new Date(value).toLocaleDateString() : 'Not available');
 
   // Fetch functions
-  const fetchUsers = async () => {
-    const normalizedFilters = getNormalizedFilters();
-
+  const fetchUsers = useCallback(async () => {
     if (!Object.values(normalizedFilters).some(Boolean)) {
       setUsers([]);
       setLoading(false);
@@ -124,9 +125,9 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiHeaders, normalizedFilters]);
 
-  const fetchPendingUsers = async () => {
+  const fetchPendingUsers = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -137,9 +138,9 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiHeaders]);
 
-  const fetchSuspiciousUsers = async () => {
+  const fetchSuspiciousUsers = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -150,9 +151,9 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiHeaders]);
 
-  const fetchPaymentIssues = async () => {
+  const fetchPaymentIssues = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -164,9 +165,9 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiHeaders]);
 
-  const fetchReportedIssues = async () => {
+  const fetchReportedIssues = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -177,7 +178,7 @@ const AdminDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [apiHeaders]);
 
   // Action handlers
   const handleCreateUser = async (e) => {
@@ -272,19 +273,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleReactivateAccount = async (userId) => {
-    setLoading(true);
-    try {
-      const res = await axios.patch(`${API_BASE}/admin/users/${userId}/reactivate`, {}, { headers: apiHeaders });
-      setSuccess(`✅ Account reactivated for ${res.data.data.firstName}`);
-      fetchUsers();
-    } catch (err) {
-      setError('❌ ' + apiErrorMessage(err, 'Failed to reactivate account'));
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleDeleteUser = async (userId) => {
     if (window.confirm('⚠️ Are you sure? This cannot be undone.')) {
       setLoading(true);
@@ -353,7 +341,7 @@ const AdminDashboard = () => {
     if (activeTab === 'security') fetchSuspiciousUsers();
     if (activeTab === 'payments') fetchPaymentIssues();
     if (activeTab === 'issues') fetchReportedIssues();
-  }, [activeTab]);
+  }, [activeTab, fetchPaymentIssues, fetchPendingUsers, fetchReportedIssues, fetchSuspiciousUsers, fetchUsers, hasOnboardingCriteria]);
 
   useEffect(() => {
     if (activeTab !== 'onboarding') {
@@ -368,7 +356,7 @@ const AdminDashboard = () => {
     }
 
     fetchUsers();
-  }, [filters]);
+  }, [activeTab, fetchUsers, hasOnboardingCriteria]);
 
   return (
     <div className="admin-dashboard-page min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">

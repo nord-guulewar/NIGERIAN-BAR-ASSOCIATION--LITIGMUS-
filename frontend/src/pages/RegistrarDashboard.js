@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboard.css';
@@ -11,7 +11,7 @@ const RegistrarDashboard = () => {
   const [cases, setCases] = useState([]);
   const [availableJudges, setAvailableJudges] = useState([]);
   const [activeTab, setActiveTab] = useState('overview');
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [, setShowRegisterModal] = useState(false);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedCase, setSelectedCase] = useState(null);
   const [selectedJudgeId, setSelectedJudgeId] = useState('');
@@ -29,13 +29,7 @@ const RegistrarDashboard = () => {
     description: ''
   });
 
-  useEffect(() => {
-    fetchDashboardData();
-    fetchPendingCases();
-    fetchAvailableJudges();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/registrar-dashboard/summary', {
@@ -49,9 +43,9 @@ const RegistrarDashboard = () => {
         navigate('/login');
       }
     }
-  };
+  }, [navigate]);
 
-  const fetchPendingCases = async () => {
+  const fetchPendingCases = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/registrar-dashboard/pending-cases', {
@@ -61,9 +55,9 @@ const RegistrarDashboard = () => {
     } catch (error) {
       console.error('Error fetching cases:', error);
     }
-  };
+  }, []);
 
-  const fetchAvailableJudges = async () => {
+  const fetchAvailableJudges = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/registrar-dashboard/available-judges', {
@@ -73,7 +67,13 @@ const RegistrarDashboard = () => {
     } catch (error) {
       console.error('Error fetching judges:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchDashboardData();
+    fetchPendingCases();
+    fetchAvailableJudges();
+  }, [fetchAvailableJudges, fetchDashboardData, fetchPendingCases]);
 
   const handleRegisterCase = async (e) => {
     e.preventDefault();

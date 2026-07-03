@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Button, Badge, Form, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
 import { caseAPI, stateAPI, courtAPI } from '../services/api';
@@ -23,44 +23,34 @@ const Cases = () => {
   
   const canRegisterCase = ['admin', 'registrar', 'clerk'].includes(user?.role);
 
-  useEffect(() => {
-    fetchStates();
-    fetchCourts();
-    fetchCaseTypes();
-  }, []);
-
-  useEffect(() => {
-    fetchCases();
-  }, [filters]);
-
-  const fetchStates = async () => {
+  const fetchStates = useCallback(async () => {
     try {
       const response = await stateAPI.getAll();
       setStates(response.data.data.states);
     } catch (err) {
       console.error('Failed to fetch states');
     }
-  };
+  }, []);
 
-  const fetchCourts = async () => {
+  const fetchCourts = useCallback(async () => {
     try {
       const response = await courtAPI.getAll();
       setCourts(response.data.data.courts);
     } catch (err) {
       console.error('Failed to fetch courts');
     }
-  };
+  }, []);
 
-  const fetchCaseTypes = async () => {
+  const fetchCaseTypes = useCallback(async () => {
     try {
       const response = await courtAPI.getCaseTypes();
       setCaseTypes(response.data.data.caseTypes);
     } catch (err) {
       console.error('Failed to fetch case types');
     }
-  };
+  }, []);
 
-  const fetchCases = async () => {
+  const fetchCases = useCallback(async () => {
     try {
       setLoading(true);
       const params = {};
@@ -76,7 +66,17 @@ const Cases = () => {
       setError('Failed to load cases');
       setLoading(false);
     }
-  };
+  }, [filters.caseType, filters.courtType, filters.state, filters.status]);
+
+  useEffect(() => {
+    fetchStates();
+    fetchCourts();
+    fetchCaseTypes();
+  }, [fetchCaseTypes, fetchCourts, fetchStates]);
+
+  useEffect(() => {
+    fetchCases();
+  }, [fetchCases]);
 
   const getStatusBadge = (status) => {
     const variants = {

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Card, Row, Col, Badge, Button, Spinner, Alert, Table, Form, InputGroup } from 'react-bootstrap';
+import { Card, Row, Col, Badge, Button, Spinner, Alert, Table, Form } from 'react-bootstrap';
 import { caseAPI } from '../services/api';
 import { generateCaseReport } from '../utils/pdfGenerator';
 import moment from 'moment';
@@ -17,11 +17,7 @@ const CaseDetails = () => {
   const [uploadError, setUploadError] = useState('');
   const [uploadSuccess, setUploadSuccess] = useState('');
 
-  useEffect(() => {
-    fetchCaseDetails();
-  }, [id]);
-
-  const fetchCaseDetails = async () => {
+  const fetchCaseDetails = useCallback(async () => {
     try {
       setLoading(true);
       const response = await caseAPI.getById(id);
@@ -31,7 +27,11 @@ const CaseDetails = () => {
       setError('Failed to load case details');
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    fetchCaseDetails();
+  }, [fetchCaseDetails]);
 
   const getStatusBadge = (status) => {
     const variants = {

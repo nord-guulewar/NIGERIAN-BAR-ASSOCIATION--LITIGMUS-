@@ -4,7 +4,7 @@ import { Container, Card, Form, Button, Alert, Spinner, Row, Col, Tabs, Tab } fr
 import { KeyRound, LogIn, ShieldCheck, ShieldEllipsis, UserPlus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getSessionUser } from '../utils/sessionAuth';
-import { authAPI, stateAPI, courtAPI, lgaAPI } from '../services/api';
+import { stateAPI, courtAPI, lgaAPI } from '../services/api';
 import { isFirebaseConfigured } from '../services/firebase';
 
 const Login = () => {
@@ -144,7 +144,6 @@ if (result.success) {
           'Magistrate': '/judge-dashboard',
           'Chief Magistrate': '/judge-dashboard',
           'registrar': '/registrar-dashboard',
-          'secretary': '/secretary-dashboard',
           'clerk': '/clerk-dashboard',
           'cashier': '/cashier-dashboard',
           'accountant': '/accountant-dashboard',
@@ -263,7 +262,6 @@ if (result.success) {
         const dashboardRoutes = {
           judge: '/judge-dashboard',
           registrar: '/registrar-dashboard',
-          secretary: '/secretary-dashboard',
           clerk: '/clerk-dashboard',
           cashier: '/cashier-dashboard',
           accountant: '/accountant-dashboard',

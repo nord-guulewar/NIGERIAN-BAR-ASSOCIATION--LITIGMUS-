@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Spinner, Alert, Table } from 'react-bootstrap';
+import { Card, Spinner, Alert, Table } from 'react-bootstrap';
 import { reportAPI } from '../services/api';
 import { Bar } from 'react-chartjs-2';
 

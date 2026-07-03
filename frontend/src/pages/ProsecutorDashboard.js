@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Card, Form, Button, Alert, Row, Col, Spinner, Table, Badge } from 'react-bootstrap';
-import { Gavel, FileText, Search, Filter, Download, PlusCircle } from 'lucide-react';
+import { Container, Card, Form, Button, Row, Col, Spinner, Table, Badge } from 'react-bootstrap';
 import axios from 'axios';
 import { getSessionToken, getSessionUser } from '../utils/sessionAuth';
 

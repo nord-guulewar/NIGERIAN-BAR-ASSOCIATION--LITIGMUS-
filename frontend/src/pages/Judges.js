@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Button, Badge, Card, Spinner, Alert } from 'react-bootstrap';
+import { Table, Badge, Card, Spinner, Alert } from 'react-bootstrap';
 import { judgeAPI } from '../services/api';
 
 const Judges = () => {

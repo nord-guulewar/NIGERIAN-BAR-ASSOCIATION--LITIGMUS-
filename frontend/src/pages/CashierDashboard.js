@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import './Dashboard.css';
 import { getSessionToken } from '../utils/sessionAuth';
@@ -21,22 +21,22 @@ const CashierDashboard = () => {
 
   const headers = useMemo(() => ({ Authorization: `Bearer ${getSessionToken()}` }), []);
 
-  const loadSummary = async () => {
+  const loadSummary = useCallback(async () => {
     const response = await axios.get('/api/dashboard/cashier/summary', { headers });
     setSummary(response.data?.data || null);
-  };
+  }, [headers]);
 
-  const loadHistory = async () => {
+  const loadHistory = useCallback(async () => {
     const response = await axios.get('/api/dashboard/cashier/payment-history?limit=50', { headers });
     setPayments(response.data?.data?.payments || []);
-  };
+  }, [headers]);
 
-  const loadDailyReport = async (date = reportDate) => {
+  const loadDailyReport = useCallback(async (date = reportDate) => {
     const response = await axios.get(`/api/dashboard/cashier/daily-report?date=${date}`, { headers });
     setDailyReport(response.data?.data?.summary || null);
-  };
+  }, [headers, reportDate]);
 
-  const refreshDashboard = async () => {
+  const refreshDashboard = useCallback(async () => {
     try {
       setError('');
       setLoading(true);
@@ -46,11 +46,11 @@ const CashierDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loadDailyReport, loadHistory, loadSummary]);
 
   useEffect(() => {
     refreshDashboard();
-  }, []);
+  }, [refreshDashboard]);
 
   const togglePaymentSelection = (id) => {
     setSelectedPayments((current) =>

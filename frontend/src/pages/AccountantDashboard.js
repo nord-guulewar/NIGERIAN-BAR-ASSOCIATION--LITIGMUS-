@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Dashboard.css';
@@ -17,17 +17,7 @@ const AccountantDashboard = () => {
   const [reconciliationOverview, setReconciliationOverview] = useState(null);
   const [varianceAlerts, setVarianceAlerts] = useState([]);
 
-  useEffect(() => {
-    const loadAll = async () => {
-      setLoading(true);
-      await Promise.allSettled([fetchDashboardData(), fetchFines(), fetchPayments(), fetchReconciliationOverview(), fetchVarianceAlerts()]);
-      setLoading(false);
-    };
-
-    loadAll();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/dashboard/summary', {
@@ -40,9 +30,9 @@ const AccountantDashboard = () => {
       if (error.response?.status === 401) navigate('/login');
       setError('Unable to load dashboard summary right now. Showing available data.');
     }
-  };
+  }, [navigate]);
 
-  const fetchFines = async () => {
+  const fetchFines = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/judge-dashboard-extended/accountant/fines', {
@@ -52,9 +42,9 @@ const AccountantDashboard = () => {
     } catch (error) {
       console.error('Error fetching fines:', error);
     }
-  };
+  }, []);
 
-  const fetchPayments = async () => {
+  const fetchPayments = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/payment-portal/', {
@@ -64,9 +54,9 @@ const AccountantDashboard = () => {
     } catch (error) {
       console.error('Error fetching payments:', error);
     }
-  };
+  }, []);
 
-  const fetchReconciliationOverview = async () => {
+  const fetchReconciliationOverview = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/dashboard/accountant/reconciliation-overview', {
@@ -76,9 +66,9 @@ const AccountantDashboard = () => {
     } catch (error) {
       console.error('Error fetching reconciliation overview:', error);
     }
-  };
+  }, []);
 
-  const fetchVarianceAlerts = async () => {
+  const fetchVarianceAlerts = useCallback(async () => {
     try {
       const token = getSessionToken();
       const response = await axios.get('/api/dashboard/accountant/variance-alerts', {
@@ -88,7 +78,17 @@ const AccountantDashboard = () => {
     } catch (error) {
       console.error('Error fetching variance alerts:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const loadAll = async () => {
+      setLoading(true);
+      await Promise.allSettled([fetchDashboardData(), fetchFines(), fetchPayments(), fetchReconciliationOverview(), fetchVarianceAlerts()]);
+      setLoading(false);
+    };
+
+    loadAll();
+  }, [fetchDashboardData, fetchFines, fetchPayments, fetchReconciliationOverview, fetchVarianceAlerts]);
 
   const handleUpdateFineStatus = async (fineId, status) => {
     try {

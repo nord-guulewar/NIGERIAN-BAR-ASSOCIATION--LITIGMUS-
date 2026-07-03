@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
-import { Scale, Calendar, MapPin, Bell, FileText, Gavel } from 'lucide-react';
+import { Calendar, MapPin, Bell, FileText } from 'lucide-react';
 
 const updates = [
   {

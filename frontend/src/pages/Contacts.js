@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { Scale, Phone, Mail, MapPin, Gavel, Award, Building2 } from 'lucide-react';
+import { Scale, MapPin, Gavel, Award, Building2 } from 'lucide-react';
 
 const officials = [
   {

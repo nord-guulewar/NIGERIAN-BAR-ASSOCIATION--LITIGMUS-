@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { firebaseAuth, isFirebaseConfigured } from '../services/firebase';
@@ -11,6 +11,8 @@ import {
 } from '../utils/sessionAuth';
 
 const AuthContext = createContext();
+const INACTIVITY_LIMIT_MS = 30 * 60 * 1000;
+const WARNING_BEFORE_MS = 2 * 60 * 1000;
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -33,11 +35,11 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
-  const clearSession = () => {
+  const clearSession = useCallback(() => {
     clearStoredSession();
     delete axios.defaults.headers.common['Authorization'];
     setUser(null);
-  };
+  }, []);
 
   const clearTabSessionOnly = () => {
     clearStoredSession();
@@ -45,8 +47,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  const INACTIVITY_LIMIT_MS = 30 * 60 * 1000;
-  const WARNING_BEFORE_MS = 2 * 60 * 1000;
+  const logout = useCallback(() => {
+    if (firebaseAuth) {
+      void signOut(firebaseAuth).catch(() => {});
+    }
+    clearSession();
+  }, [clearSession]);
 
   useEffect(() => {
     const tabActive = sessionStorage.getItem(TAB_AUTH_ACTIVE_KEY) === 'true';
@@ -107,7 +113,7 @@ export const AuthProvider = ({ children }) => {
         window.removeEventListener(eventName, resetInactivity);
       });
     };
-  }, [user]);
+  }, [logout, user]);
 
   const login = async (email, password) => {
     if (isFirebaseConfigured && firebaseAuth) {
@@ -407,13 +413,6 @@ export const AuthProvider = ({ children }) => {
         message: error.response?.data?.message || 'Failed to submit issue'
       };
     }
-  };
-
-  const logout = () => {
-    if (firebaseAuth) {
-      void signOut(firebaseAuth).catch(() => {});
-    }
-    clearSession();
   };
 
   const getCurrentToken = () => getSessionToken();
