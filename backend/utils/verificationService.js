@@ -146,6 +146,7 @@ const sendVerificationCode = async (userId, ip, userAgent) => {
     return {
       success: result.success,
       message: result.success ? 'Verification code sent to email' : result.message,
+      method: result.success ? 'email' : undefined,
       demoCode: result.success ? code : undefined,
       expiresAt,
       risk

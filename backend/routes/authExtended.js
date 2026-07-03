@@ -98,8 +98,8 @@ router.post('/login-step1', loginRateLimiter, async (req, res) => {
     await user.recordSuccessfulLogin();
 
     // Send verification code
-    const method = user.preferredVerificationMethod || 'sms';
     const result = await sendVerificationCode(user.id, req.ip, req.get('user-agent'));
+    const method = result.method || 'email';
 
     res.status(200).json({
       success: true,
