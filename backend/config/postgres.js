@@ -108,7 +108,8 @@ const connectDB = async () => {
   } catch (error) {
     console.error('❌ PostgreSQL connection error:', error.message);
     console.error('💡 Set DATABASE_URL or start PostgreSQL locally with the nba_litigmus database.');
-    process.exit(1);
+    error.code = error.code || 'DATABASE_CONNECTION_FAILED';
+    throw error;
   }
 };
 

@@ -77,7 +77,10 @@ const validateEnv = () => {
       '\x1b[33m%s\x1b[0m\n',
       'Server startup ABORTED. Fix the above and try again.\n'
     );
-    process.exit(1);
+    const error = new Error('Invalid environment configuration');
+    error.code = 'INVALID_ENV_CONFIGURATION';
+    error.details = { missing, weak };
+    throw error;
   }
 
   console.log('\x1b[32m%s\x1b[0m', '✓ Environment configuration validated');

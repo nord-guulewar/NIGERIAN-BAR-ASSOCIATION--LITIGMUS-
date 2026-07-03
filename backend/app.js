@@ -70,14 +70,22 @@ const {
 let routesRegistered = false;
 let errorHandlersRegistered = false;
 let dbReadyPromise = null;
+let environmentValidated = false;
 
 const app = express();
 
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
 
-validateEnv();
-sanitizeEnv();
+const ensureEnvironmentReady = () => {
+  if (environmentValidated) {
+    return;
+  }
+
+  validateEnv();
+  sanitizeEnv();
+  environmentValidated = true;
+};
 
 app.use(secureHeaders);
 app.use(hidePoweredBy);
@@ -239,6 +247,8 @@ const registerErrorHandlers = () => {
 
 const ensureAppReady = async () => {
   if (!dbReadyPromise) {
+    ensureEnvironmentReady();
+
     dbReadyPromise = connectDB()
       .then(() => {
         registerRoutes();
