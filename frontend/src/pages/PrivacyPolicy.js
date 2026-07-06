@@ -7,22 +7,22 @@ const PrivacyPolicy = () => {
   const navigate = useNavigate();
 
   return (
-    <Container className="py-4 py-md-5">
-      <Card className="border-0 shadow-sm">
+    <Container className="py-4 py-md-5 policy-page policy-privacy-page">
+      <Card className="border-0 shadow-sm policy-page-shell">
         <Card.Body className="p-4 p-md-5">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
             <div>
               <h1 className="mb-2">Privacy Policy</h1>
               <p className="text-muted mb-0">NBA LITIGMUS privacy notice for Nigerian and international users.</p>
             </div>
-            <Button variant="outline-success" onClick={() => navigate('/legal-compliance')}>
+            <Button variant="outline-success" className="policy-page-action" onClick={() => navigate('/legal-compliance')}>
               Legal & Compliance Overview
             </Button>
           </div>
 
           <PolicyLinks className="mb-4" />
 
-          <div className="privacy-content" style={{ lineHeight: '1.8' }}>
+          <div className="privacy-content policy-page-content" style={{ lineHeight: '1.8' }}>
             <h5>1. Introduction</h5>
             <p>
               NBA LITIGMUS ("we," "our," or "us") is a case management system developed for the

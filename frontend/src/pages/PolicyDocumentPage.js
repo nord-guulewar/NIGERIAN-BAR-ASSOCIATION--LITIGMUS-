@@ -72,13 +72,13 @@ const PolicyDocumentPage = () => {
   const body = policyBodies[policyKey];
 
   return (
-    <Container className="py-4 py-md-5">
-      <Card className="border-0 shadow-sm">
+    <Container className="py-4 py-md-5 policy-page policy-document-page">
+      <Card className="border-0 shadow-sm policy-page-shell">
         <Card.Body className="p-4 p-md-5">
           <h1 className="mb-2">{body.title}</h1>
           <p className="text-muted mb-4">{policy.summary}</p>
           <PolicyLinks className="mb-4" />
-          <div style={{ lineHeight: '1.8' }}>
+          <div className="policy-page-content policy-markdown-content" style={{ lineHeight: '1.8' }}>
             {body.sections.map(([heading, text]) => (
               <section key={heading} className="mb-4">
                 <h5>{heading}</h5>
