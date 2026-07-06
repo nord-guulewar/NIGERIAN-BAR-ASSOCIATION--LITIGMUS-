@@ -2,9 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Card, Form, Button, Alert, Spinner, Tabs, Tab } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
-import { Gavel, ShieldCheck, BadgeCheck } from 'lucide-react';
+import { Gavel, ShieldCheck, BadgeCheck, Landmark, Scale } from 'lucide-react';
 import { authAPI } from '../services/api';
 import './JudgeLogin.css';
+
+const judgeLoginAmbientIcons = [
+  { Icon: Gavel, className: 'judge-floating-icon judge-icon-gavel' },
+  { Icon: Landmark, className: 'judge-floating-icon judge-icon-landmark' },
+  { Icon: Scale, className: 'judge-floating-icon judge-icon-scale' },
+  { Icon: ShieldCheck, className: 'judge-floating-icon judge-icon-shield' }
+];
 
 const JudgeLogin = () => {
   const navigate = useNavigate();
@@ -120,6 +127,16 @@ const JudgeLogin = () => {
 
   return (
     <div className="judge-login-page">
+      <div className="judge-auth-scene" aria-hidden="true">
+        <div className="judge-scene-orb judge-orb-gold" />
+        <div className="judge-scene-orb judge-orb-blue" />
+        <div className="judge-scene-orb judge-orb-ember" />
+        {judgeLoginAmbientIcons.map(({ Icon, className }) => (
+          <div key={className} className={className}>
+            <Icon size={30} strokeWidth={1.6} />
+          </div>
+        ))}
+      </div>
       <Container>
         <Card className="judge-login-card">
           <Card.Body className="p-4 p-md-5">

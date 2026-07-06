@@ -7,6 +7,98 @@
   background:
     radial-gradient(circle at top right, rgba(201, 164, 76, 0.22), transparent 32%),
     linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+.judge-auth-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.judge-scene-orb {
+  position: absolute;
+  border-radius: 999px;
+  mix-blend-mode: screen;
+  filter: blur(8px);
+  opacity: 0.72;
+  animation: judgeSceneFloat 18s ease-in-out infinite;
+}
+
+.judge-scene-orb::after {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02));
+}
+
+.judge-orb-gold {
+  width: 250px;
+  height: 250px;
+  top: 7%;
+  right: -4%;
+  background: radial-gradient(circle, rgba(201, 164, 76, 0.3) 0%, rgba(201, 164, 76, 0.04) 72%);
+}
+
+.judge-orb-blue {
+  width: 200px;
+  height: 200px;
+  left: 4%;
+  top: 18%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(96, 165, 250, 0.03) 72%);
+  animation-delay: -6s;
+}
+
+.judge-orb-ember {
+  width: 220px;
+  height: 220px;
+  left: 12%;
+  bottom: -8%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.14) 0%, rgba(249, 115, 22, 0.02) 72%);
+  animation-delay: -10s;
+}
+
+.judge-floating-icon {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  color: rgba(248, 250, 252, 0.82);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 18px 36px rgba(2, 6, 23, 0.22);
+  backdrop-filter: blur(16px);
+  animation: judgeIconDrift 15s ease-in-out infinite;
+}
+
+.judge-icon-gavel {
+  left: 9%;
+  top: 16%;
+}
+
+.judge-icon-landmark {
+  right: 10%;
+  top: 24%;
+  animation-delay: -4s;
+}
+
+.judge-icon-scale {
+  left: 14%;
+  bottom: 18%;
+  animation-delay: -8s;
+}
+
+.judge-icon-shield {
+  right: 14%;
+  bottom: 15%;
+  animation-delay: -11s;
 }
 
 .judge-login-card {
@@ -16,6 +108,18 @@
   background: rgba(16, 27, 45, 0.96);
   max-width: 560px;
   width: 100%;
+  backdrop-filter: blur(24px);
+  overflow: hidden;
+  position: relative;
+}
+
+.judge-login-card::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 36%, transparent 68%);
+  pointer-events: none;
 }
 
 .judge-login-brand h1 {
@@ -131,9 +235,38 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes judgeSceneFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-16px, -18px, 0) scale(1.04); }
+}
+
+@keyframes judgeIconDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  30% { transform: translate3d(12px, -18px, 0) rotate(4deg); }
+  60% { transform: translate3d(-10px, -28px, 0) rotate(-4deg); }
+  80% { transform: translate3d(8px, -10px, 0) rotate(3deg); }
+}
+
 @media (max-width: 576px) {
   .judge-login-page {
     padding: 40px 16px;
+  }
+
+  .judge-floating-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+  }
+
+  .judge-orb-gold,
+  .judge-orb-ember {
+    width: 180px;
+    height: 180px;
+  }
+
+  .judge-orb-blue {
+    width: 144px;
+    height: 144px;
   }
 
   .judge-login-card {

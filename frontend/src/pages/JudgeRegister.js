@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Card, Form, Button, Alert, Row, Col, Spinner, Badge } from 'react-bootstrap';
-import { ShieldCheck, Copy, CheckCircle, Mail, KeyRound } from 'lucide-react';
+import { ShieldCheck, Copy, CheckCircle, Mail, KeyRound, Gavel, Landmark, Scale } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { authAPI, stateAPI, lgaAPI } from '../services/api';
 import './JudgeRegister.css';
+
+const judgeRegisterAmbientIcons = [
+  { Icon: Gavel, className: 'judge-register-floating-icon register-icon-gavel' },
+  { Icon: Landmark, className: 'judge-register-floating-icon register-icon-landmark' },
+  { Icon: Scale, className: 'judge-register-floating-icon register-icon-scale' },
+  { Icon: ShieldCheck, className: 'judge-register-floating-icon register-icon-shield' }
+];
 
 const VALID_COURTS_BY_TITLE = {
   Justice: [{ code: 'SC', name: 'Supreme Court of Nigeria' }],
@@ -270,6 +277,16 @@ const JudgeRegister = () => {
 
   return (
     <div className="judge-register-page">
+      <div className="judge-register-scene" aria-hidden="true">
+        <div className="judge-register-orb register-orb-gold" />
+        <div className="judge-register-orb register-orb-blue" />
+        <div className="judge-register-orb register-orb-slate" />
+        {judgeRegisterAmbientIcons.map(({ Icon, className }) => (
+          <div key={className} className={className}>
+            <Icon size={30} strokeWidth={1.6} />
+          </div>
+        ))}
+      </div>
       <Container>
         <Card className="judge-register-card">
           <Card.Body className="p-4 p-md-5">

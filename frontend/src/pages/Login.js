@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Card, Form, Button, Alert, Spinner, Row, Col, Tabs, Tab } from 'react-bootstrap';
-import { KeyRound, LogIn, ShieldCheck, ShieldEllipsis, UserPlus } from 'lucide-react';
+import { KeyRound, LogIn, ShieldCheck, ShieldEllipsis, UserPlus, Scale, Landmark, FileText } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getSessionUser } from '../utils/sessionAuth';
 import { stateAPI, courtAPI, lgaAPI } from '../services/api';
 import { isFirebaseConfigured } from '../services/firebase';
+
+const loginAmbientIcons = [
+  { Icon: Scale, className: 'auth-floating-icon icon-scale' },
+  { Icon: Landmark, className: 'auth-floating-icon icon-landmark' },
+  { Icon: FileText, className: 'auth-floating-icon icon-file' },
+  { Icon: ShieldCheck, className: 'auth-floating-icon icon-shield' }
+];
 
 const Login = () => {
   const [activeTab, setActiveTab] = useState('login');
@@ -290,6 +297,16 @@ if (result.success) {
 
   return (
     <div className="login-container">
+      <div className="auth-ambient-scene" aria-hidden="true">
+        <div className="auth-ambient-orb orb-gold" />
+        <div className="auth-ambient-orb orb-blue" />
+        <div className="auth-ambient-orb orb-slate" />
+        {loginAmbientIcons.map(({ Icon, className }) => (
+          <div key={className} className={className}>
+            <Icon size={28} strokeWidth={1.6} />
+          </div>
+        ))}
+      </div>
       <Container>
         <Card className="login-card mx-auto">
           <Card.Body className="p-4">
