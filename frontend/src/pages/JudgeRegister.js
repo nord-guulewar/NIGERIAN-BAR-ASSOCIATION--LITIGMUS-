@@ -291,15 +291,34 @@ const JudgeRegister = () => {
         <Card className="judge-register-card">
           <Card.Body className="p-4 p-md-5">
             <div className="judge-register-header text-center mb-4">
+              <span className="judge-register-eyebrow">Judicial Onboarding</span>
               <h1>Judicial Officer Registration</h1>
               <p>Secure onboarding for judges, magistrates, and judicial officers.</p>
+            </div>
+
+            <div className="judge-register-flow mb-4">
+              <div className="judge-register-flow-card">
+                <span className="judge-register-flow-step">01</span>
+                <strong>Verify bar record</strong>
+                <span>Confirm eligibility and send the Staff ID generation code.</span>
+              </div>
+              <div className="judge-register-flow-card">
+                <span className="judge-register-flow-step">02</span>
+                <strong>Generate Staff ID</strong>
+                <span>Create the judicial login identifier tied to your account.</span>
+              </div>
+              <div className="judge-register-flow-card">
+                <span className="judge-register-flow-step">03</span>
+                <strong>Complete profile</strong>
+                <span>Finish court, credential, and access information in sections.</span>
+              </div>
             </div>
 
             {error && <Alert variant="danger" dismissible onClose={() => setError('')}>{error}</Alert>}
             {message && <Alert variant="success" dismissible onClose={() => setMessage('')}>{message}</Alert>}
 
-            <Alert variant="warning" className="mb-4">
-              Judicial accounts cannot use the standard staff login. After confirming your email, continue from the dedicated judge login page.
+            <Alert variant="warning" className="mb-4 judge-register-callout">
+              <strong>Dedicated access only.</strong> Judicial accounts do not use the standard staff login. After confirmation, continue through the judge login portal.
             </Alert>
 
             {/* ===== Bar Registration + Staff ID Panel ===== */}
@@ -507,7 +526,13 @@ const JudgeRegister = () => {
 
             {/* ===== Registration Form ===== */}
             <Form onSubmit={handleSubmit}>
-              <Row>
+              <div className="judge-register-section">
+                <div className="judge-register-section-head">
+                  <h3>Account Identity</h3>
+                  <p>Keep this first block focused on who you are and how the platform should contact you.</p>
+                </div>
+
+                <Row>
                 <Col md={4}>
                   <Form.Group className="mb-3">
                     <Form.Label>Judicial Title</Form.Label>
@@ -531,9 +556,9 @@ const JudgeRegister = () => {
                     <Form.Control name="lastName" value={judgeData.lastName} onChange={handleChange} required />
                   </Form.Group>
                 </Col>
-              </Row>
+                </Row>
 
-              <Row>
+                <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Email Address</Form.Label>
@@ -546,9 +571,9 @@ const JudgeRegister = () => {
                     <Form.Control type="tel" name="phoneNumber" value={judgeData.phoneNumber} onChange={handleChange} required />
                   </Form.Group>
                 </Col>
-              </Row>
+                </Row>
 
-              <Row>
+                <Row>
                 <Col md={6}>
                   <Form.Group className="mb-3">
                     <Form.Label>Password</Form.Label>
@@ -561,9 +586,16 @@ const JudgeRegister = () => {
                     <Form.Control type="password" name="confirmPassword" value={judgeData.confirmPassword} onChange={handleChange} required />
                   </Form.Group>
                 </Col>
-              </Row>
+                </Row>
+              </div>
 
-              <Row>
+              <div className="judge-register-section">
+                <div className="judge-register-section-head">
+                  <h3>Court Assignment</h3>
+                  <p>Set the state, court, and working division that defines where this judicial account operates.</p>
+                </div>
+
+                <Row>
                 <Col md={4}>
                   <Form.Group className="mb-3">
                     <Form.Label>State</Form.Label>
@@ -597,9 +629,9 @@ const JudgeRegister = () => {
                     </Form.Select>
                   </Form.Group>
                 </Col>
-              </Row>
+                </Row>
 
-              <Row>
+                <Row>
                 <Col md={4}>
                   <Form.Group className="mb-3">
                     <Form.Label>Court Division</Form.Label>
@@ -639,9 +671,16 @@ const JudgeRegister = () => {
                     </Form.Select>
                   </Form.Group>
                 </Col>
-              </Row>
+                </Row>
+              </div>
 
-              <Row>
+              <div className="judge-register-section">
+                <div className="judge-register-section-head">
+                  <h3>Professional Credentials</h3>
+                  <p>Capture the bar and service details that support verification, assignment, and audit readiness.</p>
+                </div>
+
+                <Row>
                 <Col md={4}>
                   <Form.Group className="mb-3">
                     <Form.Label>Bar Admission Year</Form.Label>
@@ -670,28 +709,36 @@ const JudgeRegister = () => {
                     </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
-              </Row>
+                </Row>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Date of Employment</Form.Label>
-                <Form.Control type="date" name="dateOfEmployment" value={judgeData.dateOfEmployment} onChange={handleChange} />
-              </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Date of Employment</Form.Label>
+                  <Form.Control type="date" name="dateOfEmployment" value={judgeData.dateOfEmployment} onChange={handleChange} />
+                </Form.Group>
+              </div>
 
-              <Form.Group className="mb-4">
-                <Form.Check
-                  type="checkbox"
-                  name="privacyAccept"
-                  checked={judgeData.privacyAccept}
-                  onChange={handleChange}
-                  required
-                  label={
-                    <span>
-                      I confirm that the information provided is accurate and I agree to the{' '}
-                      <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and judicial code of conduct.
-                    </span>
-                  }
-                />
-              </Form.Group>
+              <div className="judge-register-section judge-register-section-compact">
+                <div className="judge-register-section-head">
+                  <h3>Final Confirmation</h3>
+                  <p>Review the declaration below before submitting the judicial onboarding request.</p>
+                </div>
+
+                <Form.Group className="mb-4">
+                  <Form.Check
+                    type="checkbox"
+                    name="privacyAccept"
+                    checked={judgeData.privacyAccept}
+                    onChange={handleChange}
+                    required
+                    label={
+                      <span>
+                        I confirm that the information provided is accurate and I agree to the{' '}
+                        <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and judicial code of conduct.
+                      </span>
+                    }
+                  />
+                </Form.Group>
+              </div>
 
               <Button variant="primary" type="submit" className="w-100 judge-auth-action-button" disabled={loading || !judgeData.staffId}>
                 {loading ? <><Spinner animation="border" size="sm" className="me-2" />Submitting Judicial Registration</> : 'Submit Judicial Registration'}

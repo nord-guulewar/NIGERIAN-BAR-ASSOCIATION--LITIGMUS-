@@ -121,9 +121,66 @@
   letter-spacing: -0.8px;
 }
 
+.judge-register-eyebrow {
+  display: inline-flex;
+  margin-bottom: 14px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(224, 197, 128, 0.12);
+  border: 1px solid rgba(224, 197, 128, 0.22);
+  color: #f0ddb2;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .judge-register-header p {
   color: #dbe6f4;
   margin-bottom: 0;
+}
+
+.judge-register-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.judge-register-flow-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(8, 17, 31, 0.72);
+  border: 1px solid rgba(37, 52, 77, 0.88);
+  box-shadow: 0 16px 34px rgba(2, 6, 23, 0.18);
+}
+
+.judge-register-flow-card strong {
+  display: block;
+  color: #f8fafc;
+  margin-bottom: 6px;
+  font-size: 0.96rem;
+}
+
+.judge-register-flow-card span {
+  display: block;
+  color: #a9bad0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.judge-register-flow-step {
+  color: #f0ddb2 !important;
+  font-size: 0.76rem !important;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.judge-register-callout {
+  background: rgba(180, 35, 24, 0.08) !important;
+  border: 1px solid rgba(180, 35, 24, 0.22) !important;
+  color: #f8fafc !important;
 }
 
 .judge-register-footer {
@@ -144,6 +201,36 @@
 .staff-id-panel h4 {
   color: #f8fafc;
   font-weight: 800;
+}
+
+.judge-register-section {
+  margin-bottom: 22px;
+  padding: 22px;
+  border-radius: 20px;
+  background: rgba(8, 17, 31, 0.6);
+  border: 1px solid rgba(37, 52, 77, 0.82);
+}
+
+.judge-register-section-compact {
+  margin-bottom: 18px;
+}
+
+.judge-register-section-head {
+  margin-bottom: 18px;
+}
+
+.judge-register-section-head h3 {
+  color: #f8fafc;
+  font-size: 1.02rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.judge-register-section-head p {
+  margin-bottom: 0;
+  color: #a9bad0;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .staff-id-panel,
@@ -227,6 +314,15 @@
 @media (max-width: 768px) {
   .judge-register-page {
     padding: 32px 0;
+  }
+
+  .judge-register-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .judge-register-flow-card,
+  .judge-register-section {
+    padding: 16px;
   }
 
   .judge-auth-scene-grid {
