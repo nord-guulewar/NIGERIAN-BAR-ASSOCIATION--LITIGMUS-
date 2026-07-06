@@ -320,9 +320,9 @@ html[data-theme='dark'] .nav-tabs .nav-link:focus {
 
 html[data-theme='dark'] .nav-tabs .nav-link.active,
 html[data-theme='dark'] .nav-pills .nav-link.active {
-  background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%) !important;
-  color: var(--text-inverse) !important;
-  border-color: var(--border-soft) !important;
+  background: linear-gradient(135deg, #162132 0%, #0b1020 100%) !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
 }
 
 html[data-theme='dark'] .table-striped > tbody > tr:nth-of-type(odd) > * {
