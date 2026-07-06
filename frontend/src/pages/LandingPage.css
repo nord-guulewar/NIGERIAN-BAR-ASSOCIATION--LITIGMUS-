@@ -1,9 +1,24 @@
 /* ===== Landing Page — Full Layout ===== */
 .landing-page {
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #08111f;
   background:
     radial-gradient(circle at top left, rgba(224, 197, 128, 0.12), transparent 24%),
     linear-gradient(180deg, #07101c 0%, #08111f 100%);
+}
+
+.landing-page::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28px;
+  background: linear-gradient(180deg, rgba(8, 17, 31, 0) 0%, #0f172a 82%);
+  pointer-events: none;
 }
 
 html {
@@ -736,9 +751,13 @@ html {
 
 /* ===== Footer ===== */
 .landing-footer {
+  position: relative;
+  z-index: 1;
   background: #0f172a;
   color: white;
   padding: 34px 24px 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 32px 0 #0f172a;
 }
 
 .footer-content {
@@ -879,10 +898,33 @@ html[data-theme='dark'] .landing-page .facts-icon svg {
   margin-top: 0;
 }
 
+.landing-policy-links.policy-links-group {
+  gap: 10px;
+}
+
 .landing-policy-links .policy-link-item {
-  padding: 6px 10px;
+  padding: 7px 12px;
   font-size: 0.75rem;
   font-weight: 700;
+  line-height: 1.2;
+  color: #dbe6f4;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.2);
+}
+
+.landing-policy-links .policy-link-item:hover {
+  color: #f8fafc;
+  background: rgba(30, 41, 59, 0.98);
+  border-color: rgba(224, 197, 128, 0.3);
+  box-shadow: 0 14px 30px rgba(2, 6, 23, 0.28);
+}
+
+.landing-policy-links .policy-link-item.active {
+  color: #0b1220;
+  background: linear-gradient(135deg, #f0ddb2 0%, #c9a44c 100%);
+  border-color: rgba(224, 197, 128, 0.42);
+  box-shadow: 0 14px 30px rgba(2, 6, 23, 0.26);
 }
 
 .footer-compliance-link {
@@ -1109,6 +1151,10 @@ html[data-theme='dark'] .landing-page .facts-icon svg {
   }
 
   .landing-policy-links {
+    justify-content: center;
+  }
+
+  .landing-policy-links .policy-link-item {
     justify-content: center;
   }
 
