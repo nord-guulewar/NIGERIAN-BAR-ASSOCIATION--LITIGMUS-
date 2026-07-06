@@ -3,116 +3,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 0;
+  padding: 72px 0;
+  position: relative;
+  overflow: hidden;
   background:
-    radial-gradient(circle at top right, rgba(201, 164, 76, 0.22), transparent 32%),
-    linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  overflow: hidden;
+    radial-gradient(circle at top right, rgba(212, 175, 55, 0.18), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(96, 165, 250, 0.14), transparent 28%),
+    linear-gradient(135deg, #08111f 0%, #101b2d 54%, #0b1220 100%);
+}
+
+.judge-login-page .container {
   position: relative;
+  z-index: 1;
 }
-
-.judge-auth-scene {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.judge-scene-orb {
-  position: absolute;
-  border-radius: 999px;
-  mix-blend-mode: screen;
-  filter: blur(8px);
-  opacity: 0.72;
-  animation: judgeSceneFloat 18s ease-in-out infinite;
-}
-
-.judge-scene-orb::after {
-  content: '';
-  position: absolute;
-  inset: 12%;
-  border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02));
-}
-
-.judge-orb-gold {
-  width: 250px;
-  height: 250px;
-  top: 7%;
-  right: -4%;
-  background: radial-gradient(circle, rgba(201, 164, 76, 0.3) 0%, rgba(201, 164, 76, 0.04) 72%);
-}
-
-.judge-orb-blue {
-  width: 200px;
-  height: 200px;
-  left: 4%;
-  top: 18%;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(96, 165, 250, 0.03) 72%);
-  animation-delay: -6s;
-}
-
-.judge-orb-ember {
-  width: 220px;
-  height: 220px;
-  left: 12%;
-  bottom: -8%;
-  background: radial-gradient(circle, rgba(249, 115, 22, 0.14) 0%, rgba(249, 115, 22, 0.02) 72%);
-  animation-delay: -10s;
-}
-
-.judge-floating-icon {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 24px;
-  color: rgba(248, 250, 252, 0.82);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 18px 36px rgba(2, 6, 23, 0.22);
-  backdrop-filter: blur(16px);
-  animation: judgeIconDrift 15s ease-in-out infinite;
-}
-
-.judge-icon-gavel {
-  left: 9%;
-  top: 16%;
-}
-
-.judge-icon-landmark {
-  right: 10%;
-  top: 24%;
-  animation-delay: -4s;
-}
-
-.judge-icon-scale {
-  left: 14%;
-  bottom: 18%;
-  animation-delay: -8s;
-}
-
-.judge-icon-shield {
-  right: 14%;
-  bottom: 15%;
-  animation-delay: -11s;
-}
-
-.judge-login-card {
-  border: 1px solid rgba(37, 52, 77, 0.84);
-  border-radius: 28px;
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
-  background: rgba(16, 27, 45, 0.96);
-  max-width: 560px;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  backdrop-filter: blur(24px);
-  overflow: hidden;
-  position: relative;
 
 .judge-auth-scene {
   position: absolute;
@@ -124,82 +27,81 @@
 .judge-auth-scene-grid {
   position: absolute;
   inset: 0;
-  opacity: 0.24;
+  opacity: 0.16;
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 74px 74px;
-  mask-image: radial-gradient(circle at center, black 46%, transparent 90%);
+  background-size: 76px 76px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 82%);
 }
 
 .judge-auth-scene-orb {
   position: absolute;
   border-radius: 999px;
-  filter: blur(12px);
-  opacity: 0.5;
-  animation: judgeOrbFloat 14s ease-in-out infinite;
+  filter: blur(14px);
+  opacity: 0.48;
+  animation: judgeSceneOrbFloat 18s ease-in-out infinite;
 }
 
 .judge-auth-scene-orb-a {
-  width: 340px;
-  height: 340px;
-  top: -100px;
-  right: -80px;
-  background: radial-gradient(circle, rgba(224, 197, 128, 0.26) 0%, rgba(224, 197, 128, 0.02) 72%);
+  width: 320px;
+  height: 320px;
+  top: -120px;
+  right: -70px;
+  background: radial-gradient(circle, rgba(224, 197, 128, 0.24) 0%, rgba(224, 197, 128, 0.02) 72%);
 }
 
 .judge-auth-scene-orb-b {
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   left: -90px;
-  bottom: -90px;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.2) 0%, rgba(96, 165, 250, 0.02) 72%);
-  animation-delay: -6s;
+  bottom: -100px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(96, 165, 250, 0.02) 72%);
+  animation-delay: -7s;
 }
 
 .judge-auth-scene-icon {
   position: absolute;
-  width: 76px;
-  height: 76px;
-  border-radius: 24px;
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(248, 250, 252, 0.92);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.17) 0%, rgba(255, 255, 255, 0.06) 100%);
+  border-radius: 24px;
+  color: rgba(248, 250, 252, 0.9);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 18px 36px rgba(2, 6, 23, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 38px rgba(2, 6, 23, 0.24);
   backdrop-filter: blur(18px);
-  animation: judgeGlassDrift 18s ease-in-out infinite;
+  animation: judgeSceneIconDrift 20s ease-in-out infinite;
 }
 
 .judge-auth-scene-icon-gavel {
-  top: 15%;
+  top: 14%;
   left: 9%;
 }
 
 .judge-auth-scene-icon-shield {
-  top: 22%;
-  right: 12%;
-  animation-delay: -5s;
+  top: 21%;
+  right: 10%;
+  animation-delay: -6s;
 }
 
 .judge-auth-scene-icon-badge {
-  bottom: 18%;
-  right: 10%;
-  animation-delay: -9s;
-}
-
-.judge-auth-scene-register .judge-auth-scene-icon-scale {
-  left: 11%;
+  right: 12%;
   bottom: 16%;
-  animation-delay: -12s;
+  animation-delay: -11s;
 }
 
-.judge-login-page .container {
+.judge-login-card {
+  width: min(560px, calc(100% - 2rem));
+  border: 1px solid rgba(37, 52, 77, 0.84);
+  border-radius: 28px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+  background: rgba(16, 27, 45, 0.94);
+  backdrop-filter: blur(24px);
   position: relative;
-  z-index: 1;
-}
+  overflow: hidden;
 }
 
 .judge-login-card::before {
@@ -232,6 +134,8 @@
   margin: 0 auto 20px;
   background: rgba(224, 197, 128, 0.12);
   color: #f0ddb2;
+  border: 1px solid rgba(224, 197, 128, 0.18);
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.24);
 }
 
 .judge-verification-panel {
@@ -239,7 +143,7 @@
   border-radius: 18px;
   background: rgba(8, 17, 31, 0.72);
   border: 1px solid rgba(37, 52, 77, 0.88);
-  animation: fadeSlideIn 0.35s ease;
+  animation: judgeFadeSlideIn 0.35s ease;
 }
 
 .judge-verification-panel h2 {
@@ -250,9 +154,6 @@
 
 .judge-verification-panel p {
   color: #dbe6f4;
-}
-
-.judge-verification-panel p {
   margin-bottom: 0;
 }
 
@@ -319,93 +220,79 @@
   box-shadow: 0 22px 42px rgba(2, 6, 23, 0.34) !important;
 }
 
-@keyframes judgeOrbFloat {
-  0%, 100% {
+@keyframes judgeSceneOrbFloat {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(-16px, 18px, 0) scale(1.08);
+    transform: translate3d(-14px, 16px, 0) scale(1.06);
   }
 }
 
-@keyframes judgeGlassDrift {
-  0%, 100% {
+@keyframes judgeSceneIconDrift {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0) rotate(0deg);
   }
   35% {
-    transform: translate3d(15px, -14px, 0) rotate(5deg);
+    transform: translate3d(12px, -12px, 0) rotate(4deg);
   }
   70% {
-    transform: translate3d(-12px, 12px, 0) rotate(-4deg);
+    transform: translate3d(-10px, 10px, 0) rotate(-3deg);
   }
 }
 
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes judgeSceneFloat {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-16px, -18px, 0) scale(1.04); }
-}
-
-@keyframes judgeIconDrift {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  30% { transform: translate3d(12px, -18px, 0) rotate(4deg); }
-  60% { transform: translate3d(-10px, -28px, 0) rotate(-4deg); }
-  80% { transform: translate3d(8px, -10px, 0) rotate(3deg); }
+@keyframes judgeFadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 576px) {
   .judge-login-page {
-    padding: 40px 16px;
+    padding: 32px 0;
+  }
+
+  .judge-auth-scene-grid {
+    opacity: 0.1;
+    background-size: 56px 56px;
   }
 
   .judge-auth-scene-icon {
-    width: 58px;
-    height: 58px;
-    border-radius: 18px;
-  }
-
-  .judge-auth-scene-icon-gavel {
-    top: 9%;
-    left: 4%;
-  }
-
-  .judge-auth-scene-icon-shield {
-    top: 13%;
-    right: 4%;
-  }
-
-  .judge-auth-scene-icon-badge {
-    bottom: 10%;
-    right: 5%;
-  }
-
-  .judge-auth-scene-register .judge-auth-scene-icon-scale {
-    left: 5%;
-    bottom: 10%;
-  }
-
-  .judge-floating-icon {
     width: 54px;
     height: 54px;
     border-radius: 18px;
   }
 
-  .judge-orb-gold,
-  .judge-orb-ember {
-    width: 180px;
-    height: 180px;
+  .judge-auth-scene-icon-gavel {
+    top: 11%;
+    left: 3%;
   }
 
-  .judge-orb-blue {
-    width: 144px;
-    height: 144px;
+  .judge-auth-scene-icon-shield {
+    top: 15%;
+    right: 3%;
+  }
+
+  .judge-auth-scene-icon-badge {
+    right: 4%;
+    bottom: 11%;
+  }
+
+  .judge-auth-scene-orb-a,
+  .judge-auth-scene-orb-b {
+    width: 190px;
+    height: 190px;
   }
 
   .judge-login-card {
+    width: min(100%, calc(100% - 1rem));
     border-radius: 22px;
   }
 

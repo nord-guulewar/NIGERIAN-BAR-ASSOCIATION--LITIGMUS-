@@ -1,65 +1,63 @@
 .judge-register-page {
   min-height: 100vh;
-  padding: 80px 0;
-  background:
-    radial-gradient(circle at top right, rgba(212, 175, 55, 0.22), transparent 30%),
-    linear-gradient(135deg, #08111f 0%, #101b2d 100%);
-  overflow: hidden;
+  padding: 72px 0;
   position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(212, 175, 55, 0.18), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(96, 165, 250, 0.14), transparent 28%),
+    linear-gradient(135deg, #08111f 0%, #101b2d 54%, #0b1220 100%);
 }
 
-.judge-register-scene {
+.judge-register-page .container {
+  position: relative;
+  z-index: 1;
+}
+
+.judge-auth-scene {
   position: absolute;
   inset: 0;
-  overflow: hidden;
   pointer-events: none;
+  overflow: hidden;
 }
 
-.judge-register-orb {
+.judge-auth-scene-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 76px 76px;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 82%);
+}
+
+.judge-auth-scene-orb {
   position: absolute;
   border-radius: 999px;
-  mix-blend-mode: screen;
-  filter: blur(8px);
-  opacity: 0.72;
-  animation: judgeRegisterFloat 18s ease-in-out infinite;
+  filter: blur(14px);
+  opacity: 0.48;
+  animation: judgeRegisterOrbFloat 18s ease-in-out infinite;
 }
 
-.judge-register-orb::after {
-  content: '';
-  position: absolute;
-  inset: 12%;
-  border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02));
+.judge-auth-scene-orb-a {
+  width: 320px;
+  height: 320px;
+  top: -120px;
+  right: -70px;
+  background: radial-gradient(circle, rgba(224, 197, 128, 0.24) 0%, rgba(224, 197, 128, 0.02) 72%);
 }
 
-.register-orb-gold {
-  width: 260px;
-  height: 260px;
-  top: -2%;
-  right: -5%;
-  background: radial-gradient(circle, rgba(224, 197, 128, 0.3) 0%, rgba(224, 197, 128, 0.04) 72%);
-}
-
-.register-orb-blue {
-  width: 210px;
-  height: 210px;
-  left: -2%;
-  top: 26%;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(96, 165, 250, 0.03) 72%);
-  animation-delay: -5s;
-}
-
-.register-orb-slate {
+.judge-auth-scene-orb-b {
   width: 280px;
   height: 280px;
-  right: 10%;
-  bottom: -10%;
-  background: radial-gradient(circle, rgba(148, 163, 184, 0.16) 0%, rgba(148, 163, 184, 0.03) 72%);
-  animation-delay: -10s;
+  left: -90px;
+  bottom: -100px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(96, 165, 250, 0.02) 72%);
+  animation-delay: -7s;
 }
 
-.judge-register-floating-icon {
+.judge-auth-scene-icon {
   position: absolute;
   width: 72px;
   height: 72px;
@@ -67,42 +65,42 @@
   align-items: center;
   justify-content: center;
   border-radius: 24px;
-  color: rgba(248, 250, 252, 0.82);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 18px 38px rgba(2, 6, 23, 0.22);
-  backdrop-filter: blur(16px);
-  animation: judgeRegisterIconDrift 16s ease-in-out infinite;
+  color: rgba(248, 250, 252, 0.9);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 38px rgba(2, 6, 23, 0.24);
+  backdrop-filter: blur(18px);
+  animation: judgeRegisterIconDrift 20s ease-in-out infinite;
 }
 
-.register-icon-gavel {
+.judge-auth-scene-icon-gavel {
   top: 14%;
-  left: 11%;
+  left: 9%;
 }
 
-.register-icon-landmark {
-  top: 22%;
-  right: 13%;
-  animation-delay: -4s;
+.judge-auth-scene-icon-shield {
+  top: 21%;
+  right: 10%;
+  animation-delay: -6s;
 }
 
-.register-icon-scale {
-  bottom: 18%;
-  left: 8%;
-  animation-delay: -8s;
+.judge-auth-scene-icon-badge {
+  right: 12%;
+  bottom: 16%;
+  animation-delay: -11s;
 }
 
-.register-icon-shield {
-  bottom: 12%;
-  right: 11%;
-  animation-delay: -12s;
+.judge-auth-scene-register .judge-auth-scene-icon-scale {
+  left: 10%;
+  bottom: 14%;
+  animation-delay: -15s;
 }
 
 .judge-register-card {
   border: 1px solid rgba(37, 52, 77, 0.84);
   border-radius: 28px;
   box-shadow: 0 28px 80px rgba(2, 6, 23, 0.42);
-  background: rgba(16, 27, 45, 0.96);
+  background: rgba(16, 27, 45, 0.94);
   backdrop-filter: blur(24px);
   overflow: hidden;
   position: relative;
@@ -138,9 +136,8 @@
   text-decoration: none;
 }
 
-/* ===== Staff ID Panel ===== */
 .staff-id-panel {
-  animation: fadeIn 0.4s ease;
+  animation: judgeRegisterFadeIn 0.4s ease;
   background: linear-gradient(135deg, rgba(224, 197, 128, 0.08) 0%, rgba(16, 27, 45, 0.42) 100%);
 }
 
@@ -168,10 +165,11 @@
 .generated-id-display code {
   font-size: 1.15rem;
   letter-spacing: 2px;
+  color: #f8fafc !important;
 }
 
 .recovery-info {
-  animation: fadeIn 0.4s ease;
+  animation: judgeRegisterFadeIn 0.4s ease;
 }
 
 .judge-auth-action-button {
@@ -192,193 +190,89 @@
   box-shadow: 0 22px 42px rgba(2, 6, 23, 0.34) !important;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes judgeRegisterFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes judgeRegisterFloat {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(14px, -20px, 0) scale(1.05); }
+@keyframes judgeRegisterOrbFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-14px, 16px, 0) scale(1.06);
+  }
 }
 
 @keyframes judgeRegisterIconDrift {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  25% { transform: translate3d(10px, -12px, 0) rotate(4deg); }
-  50% { transform: translate3d(-12px, -26px, 0) rotate(-5deg); }
-  75% { transform: translate3d(12px, -8px, 0) rotate(3deg); }
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  35% {
+    transform: translate3d(12px, -12px, 0) rotate(4deg);
+  }
+  70% {
+    transform: translate3d(-10px, 10px, 0) rotate(-3deg);
+  }
 }
 
 @media (max-width: 768px) {
   .judge-register-page {
-    padding: 40px 0;
+    padding: 32px 0;
   }
 
-  .judge-register-floating-icon {
-    width: 56px;
-    height: 56px;
+  .judge-auth-scene-grid {
+    opacity: 0.1;
+    background-size: 56px 56px;
+  }
+
+  .judge-auth-scene-icon {
+    width: 54px;
+    height: 54px;
     border-radius: 18px;
   }
 
-  .register-orb-gold,
-  .register-orb-slate {
+  .judge-auth-scene-icon-gavel {
+    top: 11%;
+    left: 3%;
+  }
+
+  .judge-auth-scene-icon-shield {
+    top: 15%;
+    right: 3%;
+  }
+
+  .judge-auth-scene-icon-badge {
+    right: 4%;
+    bottom: 11%;
+  }
+
+  .judge-auth-scene-register .judge-auth-scene-icon-scale {
+    left: 4%;
+    bottom: 10%;
+  }
+
+  .judge-auth-scene-orb-a,
+  .judge-auth-scene-orb-b {
     width: 190px;
     height: 190px;
   }
 
-  .register-orb-blue {
-    width: 150px;
-    height: 150px;
-  }
-
   .judge-register-card {
-    border-radius: 20px;
-    box-shadow: 0 18px 50px rgba(15, 41, 24, 0.1);
+    border-radius: 22px;
+    box-shadow: 0 18px 50px rgba(2, 6, 23, 0.28);
   }
 
   .generated-id-display code {
     font-size: 0.95rem;
     letter-spacing: 1px;
-  }
-}
-
-.judge-register-page {
-  position: relative;
-  overflow: hidden;
-}
-
-.judge-register-page .container {
-  position: relative;
-  z-index: 1;
-}
-
-.judge-auth-scene {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.judge-auth-scene-grid {
-  position: absolute;
-  inset: 0;
-  opacity: 0.24;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 74px 74px;
-  mask-image: radial-gradient(circle at center, black 46%, transparent 90%);
-}
-
-.judge-auth-scene-orb {
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(12px);
-  opacity: 0.5;
-  animation: judgeRegisterOrbFloat 14s ease-in-out infinite;
-}
-
-.judge-auth-scene-orb-a {
-  width: 340px;
-  height: 340px;
-  top: -100px;
-  right: -80px;
-  background: radial-gradient(circle, rgba(224, 197, 128, 0.26) 0%, rgba(224, 197, 128, 0.02) 72%);
-}
-
-.judge-auth-scene-orb-b {
-  width: 300px;
-  height: 300px;
-  left: -90px;
-  bottom: -90px;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.2) 0%, rgba(96, 165, 250, 0.02) 72%);
-  animation-delay: -6s;
-}
-
-.judge-auth-scene-icon {
-  position: absolute;
-  width: 76px;
-  height: 76px;
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(248, 250, 252, 0.92);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.17) 0%, rgba(255, 255, 255, 0.06) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 18px 36px rgba(2, 6, 23, 0.2);
-  backdrop-filter: blur(18px);
-  animation: judgeRegisterGlassDrift 18s ease-in-out infinite;
-}
-
-.judge-auth-scene-icon-gavel {
-  top: 15%;
-  left: 9%;
-}
-
-.judge-auth-scene-icon-shield {
-  top: 22%;
-  right: 12%;
-  animation-delay: -5s;
-}
-
-.judge-auth-scene-icon-badge {
-  bottom: 18%;
-  right: 10%;
-  animation-delay: -9s;
-}
-
-.judge-auth-scene-register .judge-auth-scene-icon-scale {
-  left: 11%;
-  bottom: 16%;
-  animation-delay: -12s;
-}
-
-@keyframes judgeRegisterOrbFloat {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-16px, 18px, 0) scale(1.08);
-  }
-}
-
-@keyframes judgeRegisterGlassDrift {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  35% {
-    transform: translate3d(15px, -14px, 0) rotate(5deg);
-  }
-  70% {
-    transform: translate3d(-12px, 12px, 0) rotate(-4deg);
-  }
-}
-
-@media (max-width: 768px) {
-  .judge-auth-scene-icon {
-    width: 58px;
-    height: 58px;
-    border-radius: 18px;
-  }
-
-  .judge-auth-scene-icon-gavel {
-    top: 9%;
-    left: 4%;
-  }
-
-  .judge-auth-scene-icon-shield {
-    top: 13%;
-    right: 4%;
-  }
-
-  .judge-auth-scene-icon-badge {
-    bottom: 10%;
-    right: 5%;
-  }
-
-  .judge-auth-scene-register .judge-auth-scene-icon-scale {
-    left: 5%;
-    bottom: 10%;
   }
 }

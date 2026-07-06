@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Card, Form, Button, Alert, Spinner, Row, Col, Tabs, Tab } from 'react-bootstrap';
-import { KeyRound, LogIn, ShieldCheck, ShieldEllipsis, UserPlus, Scale, Landmark, FileText } from 'lucide-react';
+import { KeyRound, ShieldCheck, ShieldEllipsis, UserPlus, Scale } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getSessionUser } from '../utils/sessionAuth';
 import { stateAPI, courtAPI, lgaAPI } from '../services/api';
 import { isFirebaseConfigured } from '../services/firebase';
-
-const loginAmbientIcons = [
-  { Icon: Scale, className: 'auth-floating-icon icon-scale' },
-  { Icon: Landmark, className: 'auth-floating-icon icon-landmark' },
-  { Icon: FileText, className: 'auth-floating-icon icon-file' },
-  { Icon: ShieldCheck, className: 'auth-floating-icon icon-shield' }
-];
 
 const Login = () => {
   const [activeTab, setActiveTab] = useState('login');
@@ -302,10 +295,7 @@ if (result.success) {
         <div className="auth-scene-orb auth-scene-orb-b"></div>
         <div className="auth-scene-grid"></div>
         <div className="auth-scene-icon auth-scene-icon-scale">
-          <ShieldCheck size={34} />
-        </div>
-        <div className="auth-scene-icon auth-scene-icon-gavel">
-          <LogIn size={30} />
+          <Scale size={34} />
         </div>
         <div className="auth-scene-icon auth-scene-icon-lock">
           <KeyRound size={28} />
@@ -313,16 +303,6 @@ if (result.success) {
         <div className="auth-scene-icon auth-scene-icon-plus">
           <UserPlus size={26} />
         </div>
-      </div>
-      <div className="auth-ambient-scene" aria-hidden="true">
-        <div className="auth-ambient-orb orb-gold" />
-        <div className="auth-ambient-orb orb-blue" />
-        <div className="auth-ambient-orb orb-slate" />
-        {loginAmbientIcons.map(({ Icon, className }) => (
-          <div key={className} className={className}>
-            <Icon size={28} strokeWidth={1.6} />
-          </div>
-        ))}
       </div>
       <Container>
         <Card className="login-card mx-auto">
@@ -438,7 +418,7 @@ if (result.success) {
                     <div className="text-center mt-3">
                       {isFirebaseConfigured && (
                         <p className="small auth-helper-note mb-2">
-                          Firebase sign-in is enabled. Your account must still exist in LITIGMUS for role-based access.
+                          Your account must still exist in LITIGMUS for role-based access.
                         </p>
                       )}
                       <div className="d-flex flex-column gap-2 align-items-center">
