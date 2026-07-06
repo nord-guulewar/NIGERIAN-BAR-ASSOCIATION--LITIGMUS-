@@ -336,7 +336,7 @@ if (result.success) {
             <Tabs
               activeKey={activeTab}
               onSelect={(k) => setActiveTab(k)}
-              className="mb-3"
+              className="mb-3 auth-tabs"
               justify
             >
               <Tab eventKey="login" title="Login">

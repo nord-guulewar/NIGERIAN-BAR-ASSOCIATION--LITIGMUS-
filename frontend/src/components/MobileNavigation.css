@@ -67,8 +67,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
-  min-height: 64px;
+  padding: 10px 14px;
+  min-height: 56px;
 }
 
 .mobile-nav-logo-block {
@@ -78,9 +78,9 @@
 }
 
 .mobile-nav-logo-badge {
-  width: 38px;
-  height: 38px;
-  border-radius: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
   background: linear-gradient(135deg, #c9a44c 0%, #e0c580 100%);
   color: #0f172a;
   display: flex;
@@ -96,7 +96,7 @@
 }
 
 .mobile-nav-logo {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
   color: #fffdf8;
   text-transform: uppercase;
@@ -104,22 +104,23 @@
 }
 
 .mobile-nav-subtitle {
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: rgba(224, 197, 128, 0.8);
 }
 
 .menu-toggle {
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  padding: 8px;
+  padding: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fffdf8;
   transition: transform 0.2s ease;
+  border-radius: 12px;
 }
 
 .menu-toggle:active {
@@ -138,16 +139,16 @@
 
 .mobile-nav-drawer {
   position: fixed;
-  top: 72px;
-  left: 12px;
-  right: 12px;
-  bottom: 74px;
+  top: 64px;
+  left: 10px;
+  right: 10px;
+  bottom: 66px;
   background: linear-gradient(180deg, #182235 0%, #0f172a 100%);
   overflow-y: auto;
   z-index: 999;
   box-shadow: 0 28px 60px rgba(15, 23, 42, 0.28);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 28px;
+  border-radius: 22px;
   animation: slideUp 0.28s ease-out;
 }
 
@@ -165,17 +166,17 @@
 .mobile-nav-user-info {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 18px 18px 16px;
+  gap: 10px;
+  padding: 14px 14px 12px;
   background: linear-gradient(135deg, rgba(201, 164, 76, 0.18) 0%, rgba(201, 164, 76, 0.06) 100%);
   color: #fffdf8;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .user-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
   background: linear-gradient(135deg, #c9a44c 0%, #b99237 100%);
   display: flex;
   align-items: center;
@@ -188,12 +189,12 @@
 .user-name {
   margin: 0;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .user-role {
   margin: 4px 0 0 0;
-  font-size: 12px;
+  font-size: 11px;
   text-transform: capitalize;
   opacity: 0.86;
   color: #e5d2a0;
@@ -204,15 +205,15 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 10px;
+  padding: 6px 8px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   list-style: none;
 }
 
 .mobile-nav-section-label {
-  padding: 0 10px 10px;
+  padding: 0 8px 8px;
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -223,18 +224,18 @@
 .mobile-nav-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 14px;
+  gap: 10px;
+  padding: 10px 12px;
   background: none;
   border: none;
-  font-size: 15px;
+  font-size: 14px;
   color: rgba(248, 250, 252, 0.88);
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
   width: 100%;
   border-left: 3px solid transparent;
-  border-radius: 18px;
+  border-radius: 14px;
 }
 
 .mobile-nav-item:active {
@@ -244,16 +245,16 @@
 .mobile-nav-item.active {
   background: rgba(201, 164, 76, 0.14);
   color: #fffdf8;
-  border-left: 4px solid #c9a44c;
-  padding-left: 13px;
+  border-left: 3px solid #c9a44c;
+  padding-left: 12px;
   font-weight: 600;
   box-shadow: inset 0 0 0 1px rgba(201, 164, 76, 0.14);
 }
 
 .mobile-nav-item-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.06);
   display: inline-flex;
   align-items: center;
@@ -269,29 +270,30 @@
 
 .mobile-nav-item-copy span {
   font-weight: 700;
+  font-size: 0.92rem;
 }
 
 .mobile-nav-item-copy small {
   color: rgba(226, 232, 240, 0.58);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
 }
 
 .mobile-nav-divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.08);
-  margin: 8px 0;
+  margin: 4px 0;
 }
 
 /* Logout Button */
 .mobile-nav-logout {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
+  gap: 10px;
+  padding: 10px 12px;
   background: none;
   border: none;
-  font-size: 15px;
+  font-size: 14px;
   color: #f4b2ad;
   cursor: pointer;
   width: 100%;
@@ -332,9 +334,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 16px 18px;
+  padding: 10px 12px 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 13px;
+  font-size: 12px;
   margin-top: auto;
 }
 
@@ -485,19 +487,19 @@ html[data-theme='dark'] .mobile-profile-error {
 .mobile-nav-bottom {
   display: none;
   position: fixed;
-  bottom: 10px;
-  left: 12px;
-  right: 12px;
-  height: 64px;
-  background: rgba(255, 253, 248, 0.96);
-  border: 1px solid rgba(30, 41, 59, 0.08);
+  bottom: 8px;
+  left: 10px;
+  right: 10px;
+  height: 56px;
+  background: rgba(12, 18, 33, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.12);
   display: flex;
   justify-content: space-around;
   align-items: center;
   z-index: 999;
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.14);
   backdrop-filter: blur(16px);
-  border-radius: 22px;
+  border-radius: 18px;
 }
 
 .nav-icon {
@@ -508,11 +510,11 @@ html[data-theme='dark'] .mobile-profile-error {
   height: 100%;
   background: none;
   border: none;
-  color: #475569;
+  color: rgba(203, 213, 225, 0.74);
   cursor: pointer;
   transition: all 0.2s ease;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .nav-icon:active {
@@ -520,7 +522,7 @@ html[data-theme='dark'] .mobile-profile-error {
 }
 
 .nav-icon.active {
-  color: #1e293b;
+  color: #f8fafc;
   font-weight: 600;
   position: relative;
 }
@@ -528,9 +530,9 @@ html[data-theme='dark'] .mobile-profile-error {
 .nav-icon.active::after {
   content: '';
   position: absolute;
-  bottom: 6px;
-  width: 28px;
-  height: 4px;
+  bottom: 4px;
+  width: 22px;
+  height: 3px;
   border-radius: 999px;
   background: #c9a44c;
 }
@@ -540,7 +542,7 @@ html[data-theme='dark'] .mobile-profile-error {
 }
 
 .nav-icon span {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.02em;
 }
@@ -572,9 +574,9 @@ html[data-theme='dark'] .mobile-profile-error {
   }
 
   .mobile-nav-item {
-    padding: 12px 12px;
-    gap: 12px;
-    font-size: 14px;
+    padding: 9px 10px;
+    gap: 9px;
+    font-size: 13px;
   }
 
   .mobile-nav-user-info {

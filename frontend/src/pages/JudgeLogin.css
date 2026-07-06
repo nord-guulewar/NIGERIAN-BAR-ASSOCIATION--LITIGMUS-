@@ -81,22 +81,31 @@
 }
 
 .judge-login-tabs .nav-link {
-  color: #a9bad0;
+  color: #cbd5e1 !important;
   font-weight: 600;
-  border-radius: 10px 10px 0 0;
-  padding: 10px 20px;
+  border-radius: 16px !important;
+  padding: 0.72rem 0.9rem;
   transition: all 0.2s ease;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid rgba(148, 163, 184, 0.14) !important;
+  background: rgba(15, 23, 42, 0.9) !important;
 }
 
 .judge-login-tabs .nav-link.active {
-  color: #fffdf8;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  border-bottom: 2px solid #c9a44c;
+  color: #f8fafc !important;
+  background: linear-gradient(135deg, #162132 0%, #0b1020 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 14px 28px rgba(2, 6, 23, 0.24);
 }
 
 .judge-login-tabs .nav-link:hover:not(.active) {
-  color: #f0ddb2;
-  background: rgba(224, 197, 128, 0.08);
+  color: #f8fafc !important;
+  background: rgba(30, 41, 59, 0.96) !important;
+  border-color: rgba(201, 164, 76, 0.22) !important;
 }
 
 .judge-auth-action-button {
@@ -132,7 +141,9 @@
   }
 
   .judge-login-tabs .nav-link {
-    font-size: 0.85rem;
-    padding: 8px 12px;
+    font-size: 0.84rem;
+    padding: 0.6rem 0.55rem;
+    min-height: 46px;
+    line-height: 1.15;
   }
 }

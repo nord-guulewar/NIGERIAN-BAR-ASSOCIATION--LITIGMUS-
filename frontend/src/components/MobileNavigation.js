@@ -245,8 +245,6 @@ const MobileNavigation = () => {
           </nav>
 
           <div className="mobile-nav-divider"></div>
-          {/* Divider */}
-          <div className="mobile-nav-divider"></div>
 
           <button className="mobile-nav-logout" onClick={handleLogout}>
             <div className="mobile-nav-item-icon logout-icon"><LogOut size={18} /></div>
