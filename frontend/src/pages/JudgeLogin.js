@@ -166,7 +166,7 @@ const JudgeLogin = () => {
                           disabled={loading}
                         />
                       </Form.Group>
-                      <Button variant="primary" type="submit" className="w-100" disabled={loading}>
+                      <Button variant="primary" type="submit" className="w-100 judge-auth-action-button" disabled={loading}>
                         {loading ? <><Spinner animation="border" size="sm" className="me-2" />Sending Code...</> : 'Send Verification Code'}
                       </Button>
                     </Form>
@@ -200,7 +200,7 @@ const JudgeLogin = () => {
                           disabled={loading}
                         />
                       </Form.Group>
-                      <Button variant="primary" type="submit" className="w-100" disabled={loading}>
+                      <Button variant="primary" type="submit" className="w-100 judge-auth-action-button" disabled={loading}>
                         {loading ? <><Spinner animation="border" size="sm" className="me-2" />Sending Code...</> : 'Send Verification Code'}
                       </Button>
                     </Form>
@@ -246,6 +246,7 @@ const JudgeLogin = () => {
                 </Form.Group>
 
                 <Button variant="primary" type="submit" className="w-100 mb-2" disabled={loading || verificationCode.length !== 6}>
+                <Button variant="primary" type="submit" className="w-100 mb-2 judge-auth-action-button" disabled={loading || verificationCode.length !== 6}>
                   {loading ? <><Spinner animation="border" size="sm" className="me-2" />Verifying Judge Session</> : 'Verify & Enter Dashboard'}
                 </Button>
 

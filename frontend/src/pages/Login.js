@@ -374,7 +374,7 @@ if (result.success) {
                     <Button
                       variant="primary"
                       type="submit"
-                      className="w-100"
+                      className="w-100 auth-action-button"
                       disabled={loading}
                     >
                       {loading ? (
@@ -446,7 +446,7 @@ if (result.success) {
                     <Button
                       variant="success"
                       type="submit"
-                      className="w-100 mb-2"
+                      className="w-100 mb-2 auth-action-button"
                       disabled={loading || verificationCode.length !== 6}
                     >
                       {loading ? (
@@ -783,7 +783,7 @@ if (result.success) {
                   <Button
                     variant="success"
                     type="submit"
-                    className="w-100"
+                    className="w-100 auth-action-button"
                     disabled={loading}
                   >
                     {loading ? (
@@ -839,7 +839,7 @@ if (result.success) {
                       placeholder="NBA-..."
                     />
                   </Form.Group>
-                  <Button variant="warning" type="submit" className="w-100" disabled={loading}>
+                  <Button variant="warning" type="submit" className="w-100 auth-action-button" disabled={loading}>
                     {loading ? (
                       <>
                         <Spinner animation="border" size="sm" className="me-2" />

@@ -431,7 +431,7 @@ const JudgeRegister = () => {
                           variant="primary"
                           onClick={handleGenerateStaffId}
                           disabled={staffIdLoading || !staffIdCode}
-                          className="w-100"
+                          className="w-100 judge-auth-action-button"
                         >
                           {staffIdLoading ? (
                             <><Spinner animation="border" size="sm" className="me-2" />Generating...</>
@@ -676,7 +676,7 @@ const JudgeRegister = () => {
                 />
               </Form.Group>
 
-              <Button variant="primary" type="submit" className="w-100" disabled={loading || !judgeData.staffId}>
+              <Button variant="primary" type="submit" className="w-100 judge-auth-action-button" disabled={loading || !judgeData.staffId}>
                 {loading ? <><Spinner animation="border" size="sm" className="me-2" />Submitting Judicial Registration</> : 'Submit Judicial Registration'}
               </Button>
             </Form>

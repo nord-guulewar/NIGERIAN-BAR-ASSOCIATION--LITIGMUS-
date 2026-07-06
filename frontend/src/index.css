@@ -260,28 +260,43 @@ code {
 }
 
 .btn-primary {
-  background-color: var(--nba-green);
-  border-color: var(--nba-green);
+  background-color: #162132;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
-  background-color: var(--nba-green-light);
-  border-color: var(--nba-green-light);
+  background-color: #1e293b;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
 }
 
 .btn-success {
-  background-color: var(--nba-gold);
-  border-color: var(--nba-gold);
-  color: var(--nba-green-dark);
+  background-color: #162132;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
   font-weight: 600;
 }
 
 .btn-success:hover,
 .btn-success:focus {
-  background-color: var(--nba-gold-light);
-  border-color: var(--nba-gold-light);
-  color: var(--nba-green-dark);
+  background-color: #1e293b;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
+}
+
+.btn-warning {
+  background-color: #162132;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+}
+
+.btn-warning:hover,
+.btn-warning:focus {
+  background-color: #1e293b;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
 }
 
 .text-primary {
