@@ -138,34 +138,6 @@
   line-height: 1.6;
 }
 
-.judge-login-quick-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.judge-login-quick-item {
-  padding: 14px 16px;
-  border-radius: 16px;
-  background: rgba(8, 17, 31, 0.56);
-  border: 1px solid rgba(37, 52, 77, 0.84);
-  text-align: center;
-}
-
-.judge-login-quick-item strong {
-  display: block;
-  color: #f8fafc;
-  font-size: 0.88rem;
-  margin-bottom: 4px;
-}
-
-.judge-login-quick-item span {
-  display: block;
-  color: #a9bad0;
-  font-size: 0.78rem;
-  line-height: 1.45;
-}
-
 .judge-login-logo {
   width: 86px;
   height: 86px;
@@ -299,10 +271,6 @@
 @media (max-width: 576px) {
   .judge-login-page {
     padding: 32px 0;
-  }
-
-  .judge-login-quick-row {
-    grid-template-columns: 1fr;
   }
 
   .judge-auth-scene-grid {

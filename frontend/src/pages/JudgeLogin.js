@@ -146,21 +146,6 @@ const JudgeLogin = () => {
               <p>Focused access for judges and magistrates with dedicated judicial verification.</p>
             </div>
 
-            <div className="judge-login-quick-row mb-4">
-              <div className="judge-login-quick-item">
-                <strong>Email or Staff ID</strong>
-                <span>Use either route below</span>
-              </div>
-              <div className="judge-login-quick-item">
-                <strong>Verification required</strong>
-                <span>Every session is confirmed</span>
-              </div>
-              <div className="judge-login-quick-item">
-                <strong>Judicial only</strong>
-                <span>Separate from staff login</span>
-              </div>
-            </div>
-
             {error && <Alert variant="danger" dismissible onClose={() => setError('')}>{error}</Alert>}
             {message && <Alert variant="success" dismissible onClose={() => setMessage('')}>{message}</Alert>}
 

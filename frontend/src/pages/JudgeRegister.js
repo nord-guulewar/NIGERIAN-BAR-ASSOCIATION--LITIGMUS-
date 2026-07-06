@@ -293,13 +293,7 @@ const JudgeRegister = () => {
             <div className="judge-register-header text-center mb-4">
               <span className="judge-register-eyebrow">Judicial Onboarding</span>
               <h1>Judicial Officer Registration</h1>
-              <p>Secure onboarding for judges, magistrates, and judicial officers.</p>
-            </div>
-
-            <div className="judge-register-flow-inline mb-4">
-              <span>1. Verify bar record</span>
-              <span>2. Generate Staff ID</span>
-              <span>3. Complete profile</span>
+              <p>Complete your secure judicial access setup.</p>
             </div>
 
             {error && <Alert variant="danger" dismissible onClose={() => setError('')}>{error}</Alert>}
@@ -324,8 +318,7 @@ const JudgeRegister = () => {
                 {barStep === 'form' && (
                   <div>
                     <p className="text-muted small mb-3">
-                      Enter your Nigerian Bar re-registration number and email. A Staff ID generation code will be sent to your email.
-                      Format: <code>SC/NUMBER/YEAR</code> (e.g., SC/1234/2015).
+                      Enter your bar re-registration number and judicial email to begin Staff ID generation.
                     </p>
                     <Row className="g-3 mb-3">
                       <Col md={6}>
@@ -353,9 +346,7 @@ const JudgeRegister = () => {
                           />
                         </Form.Group>
                       </Col>
-                    </Row>
-                    <Row className="g-3 mb-3">
-                      <Col md={4}>
+                      <Col md={3}>
                         <Form.Group>
                           <Form.Label>Judicial Title <span className="text-danger">*</span></Form.Label>
                           <Form.Select name="title" value={judgeData.title} onChange={handleChange}>
@@ -366,7 +357,7 @@ const JudgeRegister = () => {
                           </Form.Select>
                         </Form.Group>
                       </Col>
-                      <Col md={4}>
+                      <Col md={3}>
                         <Form.Group>
                           <Form.Label>State <span className="text-danger">*</span></Form.Label>
                           <Form.Select name="state" value={judgeData.state} onChange={handleChange}>
@@ -386,20 +377,6 @@ const JudgeRegister = () => {
                               <option key={lga} value={lga}>{lga}</option>
                             ))}
                           </Form.Select>
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                    <Row className="g-3 mb-3">
-                      <Col md={6}>
-                        <Form.Group>
-                          <Form.Label>First Name</Form.Label>
-                          <Form.Control name="firstName" value={judgeData.firstName} onChange={handleChange} />
-                        </Form.Group>
-                      </Col>
-                      <Col md={6}>
-                        <Form.Group>
-                          <Form.Label>Last Name</Form.Label>
-                          <Form.Control name="lastName" value={judgeData.lastName} onChange={handleChange} />
                         </Form.Group>
                       </Col>
                     </Row>

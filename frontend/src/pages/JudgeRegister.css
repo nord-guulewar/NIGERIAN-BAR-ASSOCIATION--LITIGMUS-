@@ -140,22 +140,6 @@
   margin-bottom: 0;
 }
 
-.judge-register-flow-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.judge-register-flow-inline span {
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(8, 17, 31, 0.6);
-  border: 1px solid rgba(37, 52, 77, 0.82);
-  color: #dbe6f4;
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
 .judge-register-callout {
   background: rgba(180, 35, 24, 0.08) !important;
   border: 1px solid rgba(180, 35, 24, 0.22) !important;
