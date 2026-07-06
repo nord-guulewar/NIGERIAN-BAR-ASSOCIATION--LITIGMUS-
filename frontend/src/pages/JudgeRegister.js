@@ -252,7 +252,7 @@ const JudgeRegister = () => {
       const result = await registerJudge(payload);
 
       if (result.success) {
-        setMessage('Judge registration submitted. Please check your email to confirm your judicial account.');
+        setMessage('Judge registration submitted. Confirm your judicial email first, then use the dedicated judge login portal to receive your verification code.');
         setRecoveryInfo(result.offsiteAccess || null);
         setJudgeData(initialJudgeData);
         setGeneratedStaffId('');
@@ -280,6 +280,10 @@ const JudgeRegister = () => {
 
             {error && <Alert variant="danger" dismissible onClose={() => setError('')}>{error}</Alert>}
             {message && <Alert variant="success" dismissible onClose={() => setMessage('')}>{message}</Alert>}
+
+            <Alert variant="warning" className="mb-4">
+              Judicial accounts cannot use the standard staff login. After confirming your email, continue from the dedicated judge login page.
+            </Alert>
 
             {/* ===== Bar Registration + Staff ID Panel ===== */}
             <Card className="staff-id-panel mb-4" style={{ borderColor: '#d4af37', borderWidth: 2 }}>

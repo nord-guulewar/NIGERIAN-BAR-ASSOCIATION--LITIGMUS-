@@ -36,6 +36,20 @@ router.post('/login-step1', loginRateLimiter, async (req, res) => {
       });
     }
 
+    if (user.role === 'judge') {
+      return res.status(400).json({
+        success: false,
+        message: 'Judicial officers must use the dedicated judge login portal.'
+      });
+    }
+
+    if (user.role === 'admin') {
+      return res.status(400).json({
+        success: false,
+        message: 'Administrators must use the dedicated admin login portal.'
+      });
+    }
+
     // Check if account is locked
     if (user.isAccountLocked()) {
       const lockedMinutes = Math.ceil((user.accountLockedUntil - new Date()) / 60000);

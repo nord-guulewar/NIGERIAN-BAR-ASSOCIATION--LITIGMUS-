@@ -251,6 +251,95 @@ html[data-theme='dark'] .form-control::placeholder {
   color: rgba(169, 186, 208, 0.7);
 }
 
+html[data-theme='dark'] .bg-white,
+html[data-theme='dark'] .bg-light,
+html[data-theme='dark'] .card-footer.bg-light,
+html[data-theme='dark'] .alert-light,
+html[data-theme='dark'] .nav-tabs,
+html[data-theme='dark'] .dropdown-menu,
+html[data-theme='dark'] .modal-content,
+html[data-theme='dark'] .offcanvas,
+html[data-theme='dark'] .table,
+html[data-theme='dark'] .list-group-item {
+  background: var(--surface-panel) !important;
+  color: var(--text-body) !important;
+  border-color: var(--border-soft) !important;
+}
+
+html[data-theme='dark'] .text-dark,
+html[data-theme='dark'] .text-black,
+html[data-theme='dark'] .text-gray-900,
+html[data-theme='dark'] .text-gray-800,
+html[data-theme='dark'] .text-nba-dark {
+  color: var(--text-strong) !important;
+}
+
+html[data-theme='dark'] .text-muted,
+html[data-theme='dark'] .text-gray-700,
+html[data-theme='dark'] .text-gray-600,
+html[data-theme='dark'] .text-gray-500 {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme='dark'] .border,
+html[data-theme='dark'] .border-top,
+html[data-theme='dark'] .border-bottom,
+html[data-theme='dark'] .border-start,
+html[data-theme='dark'] .border-end,
+html[data-theme='dark'] .nav-tabs .nav-link,
+html[data-theme='dark'] .table > :not(caption) > * > * {
+  border-color: var(--border-soft) !important;
+}
+
+html[data-theme='dark'] .btn-light {
+  background: linear-gradient(135deg, var(--surface-contrast) 0%, var(--surface-muted) 100%) !important;
+  border-color: var(--border-soft) !important;
+  color: var(--text-strong) !important;
+}
+
+html[data-theme='dark'] .btn-light:hover {
+  background: linear-gradient(135deg, rgba(224, 197, 128, 0.2) 0%, rgba(16, 27, 45, 0.92) 100%) !important;
+  color: var(--text-strong) !important;
+}
+
+html[data-theme='dark'] .btn-link,
+html[data-theme='dark'] a,
+html[data-theme='dark'] .nav-link,
+html[data-theme='dark'] .dropdown-item {
+  color: var(--accent-400);
+}
+
+html[data-theme='dark'] .dropdown-item:hover,
+html[data-theme='dark'] .dropdown-item:focus,
+html[data-theme='dark'] .nav-tabs .nav-link:hover,
+html[data-theme='dark'] .nav-tabs .nav-link:focus {
+  background: rgba(224, 197, 128, 0.08) !important;
+  color: var(--accent-400) !important;
+}
+
+html[data-theme='dark'] .nav-tabs .nav-link.active,
+html[data-theme='dark'] .nav-pills .nav-link.active {
+  background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%) !important;
+  color: var(--text-inverse) !important;
+  border-color: var(--border-soft) !important;
+}
+
+html[data-theme='dark'] .table-striped > tbody > tr:nth-of-type(odd) > * {
+  color: var(--text-body);
+  background: rgba(16, 27, 45, 0.72) !important;
+}
+
+html[data-theme='dark'] .table-hover > tbody > tr:hover > * {
+  color: var(--text-strong);
+  background: rgba(224, 197, 128, 0.08) !important;
+}
+
+html[data-theme='dark'] code,
+html[data-theme='dark'] pre {
+  background: rgba(8, 17, 31, 0.86);
+  color: var(--accent-400);
+}
+
 /* ===== Alert Enhancements ===== */
 .alert {
   border: 1px solid transparent;

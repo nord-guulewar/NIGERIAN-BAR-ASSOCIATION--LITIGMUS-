@@ -208,7 +208,7 @@ if (result.success) {
       if (result.success) {
         setMessage(
           result.emailConfirmationRequired
-            ? 'Registration successful. Please check your email for the account confirmation link to complete your welcome onboarding.'
+            ? 'Registration successful. Your account has been created, but you must confirm your email before the login page can send a verification code.'
             : 'Registration successful. You can now log in.'
         );
         setRecoveryInfo(result.recoveryCode ? { recoveryCode: result.recoveryCode, offsiteAccess: result.offsiteAccess } : null);
@@ -397,15 +397,24 @@ if (result.success) {
                       )}
                     </Button>
 
+                    <Alert variant="warning" className="mt-3 mb-0 auth-flow-note">
+                      Staff accounts must confirm their email before this login flow can send a verification code. Judicial officers and administrators must use their dedicated portals.
+                    </Alert>
+
                     <div className="text-center mt-3">
                       {isFirebaseConfigured && (
                         <p className="small auth-helper-note mb-2">
                           Firebase sign-in is enabled. Your account must still exist in LITIGMUS for role-based access.
                         </p>
                       )}
-                      <a href="/admin-login" className="text-decoration-none small text-dark">
-                        Administrator? Use secure admin login
-                      </a>
+                      <div className="d-flex flex-column gap-2 align-items-center">
+                        <a href="/judge-login" className="text-decoration-none small auth-link-inline">
+                          Judicial officer? Use judge login
+                        </a>
+                        <a href="/admin-login" className="text-decoration-none small auth-link-inline">
+                          Administrator? Use secure admin login
+                        </a>
+                      </div>
                     </div>
                   </Form>
                 ) : (
@@ -796,6 +805,10 @@ if (result.success) {
                       </>
                     )}
                   </Button>
+
+                  <p className="small auth-helper-note mt-3 mb-0 text-center">
+                    Registration stores your account first, then sends an email confirmation link. Login remains blocked until that email confirmation is completed.
+                  </p>
                 </Form>
               </Tab>
 

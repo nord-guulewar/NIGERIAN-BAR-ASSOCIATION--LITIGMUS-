@@ -74,10 +74,10 @@ const SecurityDashboard = lazy(() =>
 );
 
 function AppLoader() {
-  const { isDarkMode } = useTheme();
+  useTheme();
 
   return (
-    <div className={`app-preloader ${isDarkMode ? 'dark' : 'light'}`} role="status" aria-live="polite" aria-label="Loading application">
+    <div className="app-preloader dark" role="status" aria-live="polite" aria-label="Loading application">
       <div className="app-preloader-shell">
         <div className="app-preloader-mark">
           <span className="app-preloader-ring" />
