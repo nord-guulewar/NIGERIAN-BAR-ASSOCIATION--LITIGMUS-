@@ -297,6 +297,23 @@ if (result.success) {
 
   return (
     <div className="login-container">
+      <div className="auth-scene auth-scene-login" aria-hidden="true">
+        <div className="auth-scene-orb auth-scene-orb-a"></div>
+        <div className="auth-scene-orb auth-scene-orb-b"></div>
+        <div className="auth-scene-grid"></div>
+        <div className="auth-scene-icon auth-scene-icon-scale">
+          <ShieldCheck size={34} />
+        </div>
+        <div className="auth-scene-icon auth-scene-icon-gavel">
+          <LogIn size={30} />
+        </div>
+        <div className="auth-scene-icon auth-scene-icon-lock">
+          <KeyRound size={28} />
+        </div>
+        <div className="auth-scene-icon auth-scene-icon-plus">
+          <UserPlus size={26} />
+        </div>
+      </div>
       <div className="auth-ambient-scene" aria-hidden="true">
         <div className="auth-ambient-orb orb-gold" />
         <div className="auth-ambient-orb orb-blue" />

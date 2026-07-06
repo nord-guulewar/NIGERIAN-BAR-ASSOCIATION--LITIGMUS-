@@ -107,10 +107,99 @@
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
   background: rgba(16, 27, 45, 0.96);
   max-width: 560px;
+  position: relative;
+  overflow: hidden;
   width: 100%;
   backdrop-filter: blur(24px);
   overflow: hidden;
   position: relative;
+
+.judge-auth-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.judge-auth-scene-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.24;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 74px 74px;
+  mask-image: radial-gradient(circle at center, black 46%, transparent 90%);
+}
+
+.judge-auth-scene-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(12px);
+  opacity: 0.5;
+  animation: judgeOrbFloat 14s ease-in-out infinite;
+}
+
+.judge-auth-scene-orb-a {
+  width: 340px;
+  height: 340px;
+  top: -100px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(224, 197, 128, 0.26) 0%, rgba(224, 197, 128, 0.02) 72%);
+}
+
+.judge-auth-scene-orb-b {
+  width: 300px;
+  height: 300px;
+  left: -90px;
+  bottom: -90px;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.2) 0%, rgba(96, 165, 250, 0.02) 72%);
+  animation-delay: -6s;
+}
+
+.judge-auth-scene-icon {
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(248, 250, 252, 0.92);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.17) 0%, rgba(255, 255, 255, 0.06) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 18px 36px rgba(2, 6, 23, 0.2);
+  backdrop-filter: blur(18px);
+  animation: judgeGlassDrift 18s ease-in-out infinite;
+}
+
+.judge-auth-scene-icon-gavel {
+  top: 15%;
+  left: 9%;
+}
+
+.judge-auth-scene-icon-shield {
+  top: 22%;
+  right: 12%;
+  animation-delay: -5s;
+}
+
+.judge-auth-scene-icon-badge {
+  bottom: 18%;
+  right: 10%;
+  animation-delay: -9s;
+}
+
+.judge-auth-scene-register .judge-auth-scene-icon-scale {
+  left: 11%;
+  bottom: 16%;
+  animation-delay: -12s;
+}
+
+.judge-login-page .container {
+  position: relative;
+  z-index: 1;
+}
 }
 
 .judge-login-card::before {
@@ -230,6 +319,27 @@
   box-shadow: 0 22px 42px rgba(2, 6, 23, 0.34) !important;
 }
 
+@keyframes judgeOrbFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-16px, 18px, 0) scale(1.08);
+  }
+}
+
+@keyframes judgeGlassDrift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  35% {
+    transform: translate3d(15px, -14px, 0) rotate(5deg);
+  }
+  70% {
+    transform: translate3d(-12px, 12px, 0) rotate(-4deg);
+  }
+}
+
 @keyframes fadeSlideIn {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -250,6 +360,32 @@
 @media (max-width: 576px) {
   .judge-login-page {
     padding: 40px 16px;
+  }
+
+  .judge-auth-scene-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+  }
+
+  .judge-auth-scene-icon-gavel {
+    top: 9%;
+    left: 4%;
+  }
+
+  .judge-auth-scene-icon-shield {
+    top: 13%;
+    right: 4%;
+  }
+
+  .judge-auth-scene-icon-badge {
+    bottom: 10%;
+    right: 5%;
+  }
+
+  .judge-auth-scene-register .judge-auth-scene-icon-scale {
+    left: 5%;
+    bottom: 10%;
   }
 
   .judge-floating-icon {

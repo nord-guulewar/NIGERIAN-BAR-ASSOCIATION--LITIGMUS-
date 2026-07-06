@@ -128,6 +128,20 @@ const JudgeLogin = () => {
   return (
     <div className="judge-login-page">
       <div className="judge-auth-scene" aria-hidden="true">
+        <div className="judge-auth-scene-orb judge-auth-scene-orb-a"></div>
+        <div className="judge-auth-scene-orb judge-auth-scene-orb-b"></div>
+        <div className="judge-auth-scene-grid"></div>
+        <div className="judge-auth-scene-icon judge-auth-scene-icon-gavel">
+          <Gavel size={32} />
+        </div>
+        <div className="judge-auth-scene-icon judge-auth-scene-icon-shield">
+          <ShieldCheck size={28} />
+        </div>
+        <div className="judge-auth-scene-icon judge-auth-scene-icon-badge">
+          <BadgeCheck size={26} />
+        </div>
+      </div>
+      <div className="judge-auth-scene" aria-hidden="true">
         <div className="judge-scene-orb judge-orb-gold" />
         <div className="judge-scene-orb judge-orb-blue" />
         <div className="judge-scene-orb judge-orb-ember" />
