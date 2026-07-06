@@ -296,22 +296,10 @@ const JudgeRegister = () => {
               <p>Secure onboarding for judges, magistrates, and judicial officers.</p>
             </div>
 
-            <div className="judge-register-flow mb-4">
-              <div className="judge-register-flow-card">
-                <span className="judge-register-flow-step">01</span>
-                <strong>Verify bar record</strong>
-                <span>Confirm eligibility and send the Staff ID generation code.</span>
-              </div>
-              <div className="judge-register-flow-card">
-                <span className="judge-register-flow-step">02</span>
-                <strong>Generate Staff ID</strong>
-                <span>Create the judicial login identifier tied to your account.</span>
-              </div>
-              <div className="judge-register-flow-card">
-                <span className="judge-register-flow-step">03</span>
-                <strong>Complete profile</strong>
-                <span>Finish court, credential, and access information in sections.</span>
-              </div>
+            <div className="judge-register-flow-inline mb-4">
+              <span>1. Verify bar record</span>
+              <span>2. Generate Staff ID</span>
+              <span>3. Complete profile</span>
             </div>
 
             {error && <Alert variant="danger" dismissible onClose={() => setError('')}>{error}</Alert>}
@@ -529,7 +517,7 @@ const JudgeRegister = () => {
               <div className="judge-register-section">
                 <div className="judge-register-section-head">
                   <h3>Account Identity</h3>
-                  <p>Keep this first block focused on who you are and how the platform should contact you.</p>
+                  <p>Your core identity and login details.</p>
                 </div>
 
                 <Row>
@@ -592,7 +580,7 @@ const JudgeRegister = () => {
               <div className="judge-register-section">
                 <div className="judge-register-section-head">
                   <h3>Court Assignment</h3>
-                  <p>Set the state, court, and working division that defines where this judicial account operates.</p>
+                  <p>Set the court and duty location for this account.</p>
                 </div>
 
                 <Row>
@@ -677,7 +665,7 @@ const JudgeRegister = () => {
               <div className="judge-register-section">
                 <div className="judge-register-section-head">
                   <h3>Professional Credentials</h3>
-                  <p>Capture the bar and service details that support verification, assignment, and audit readiness.</p>
+                  <p>Bar and service details for verification.</p>
                 </div>
 
                 <Row>
@@ -720,7 +708,7 @@ const JudgeRegister = () => {
               <div className="judge-register-section judge-register-section-compact">
                 <div className="judge-register-section-head">
                   <h3>Final Confirmation</h3>
-                  <p>Review the declaration below before submitting the judicial onboarding request.</p>
+                  <p>Confirm and submit the onboarding request.</p>
                 </div>
 
                 <Form.Group className="mb-4">
