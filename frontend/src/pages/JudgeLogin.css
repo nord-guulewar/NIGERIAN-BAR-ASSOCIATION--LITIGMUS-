@@ -10,22 +10,22 @@
 }
 
 .judge-login-card {
-  border: none;
+  border: 1px solid rgba(37, 52, 77, 0.84);
   border-radius: 28px;
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
-  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+  background: rgba(16, 27, 45, 0.96);
   max-width: 560px;
   width: 100%;
 }
 
 .judge-login-brand h1 {
-  color: #1e293b;
+  color: #f8fafc;
   font-weight: 900;
   margin-bottom: 8px;
 }
 
 .judge-login-brand p {
-  color: #64748b;
+  color: #a9bad0;
   line-height: 1.6;
 }
 
@@ -37,22 +37,26 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  background: rgba(30, 41, 59, 0.08);
-  color: #1e293b;
+  background: rgba(224, 197, 128, 0.12);
+  color: #f0ddb2;
 }
 
 .judge-verification-panel {
   padding: 24px;
   border-radius: 18px;
-  background: #f7f2e9;
-  border: 1px solid #e6dece;
+  background: rgba(8, 17, 31, 0.72);
+  border: 1px solid rgba(37, 52, 77, 0.88);
   animation: fadeSlideIn 0.35s ease;
 }
 
 .judge-verification-panel h2 {
-  color: #1e293b;
+  color: #f8fafc;
   font-size: 1.4rem;
   margin-bottom: 8px;
+}
+
+.judge-verification-panel p {
+  color: #dbe6f4;
 }
 
 .judge-verification-panel p {
@@ -60,24 +64,24 @@
 }
 
 .judge-login-footer {
-  color: #64748b;
+  color: #a9bad0;
 }
 
 .judge-login-footer .btn-link {
-  color: #1e293b;
+  color: #f0ddb2;
   font-weight: 700;
   text-decoration: none;
 }
 
 .judge-confirmation-help {
-  border-top: 1px solid #e6dece;
+  border-top: 1px solid rgba(37, 52, 77, 0.88);
   padding-top: 14px;
-  color: #475569;
+  color: #a9bad0;
   font-size: 0.95rem;
 }
 
 .judge-login-tabs .nav-link {
-  color: #64748b;
+  color: #a9bad0;
   font-weight: 600;
   border-radius: 10px 10px 0 0;
   padding: 10px 20px;
@@ -91,8 +95,8 @@
 }
 
 .judge-login-tabs .nav-link:hover:not(.active) {
-  color: #1e293b;
-  background: rgba(201, 164, 76, 0.08);
+  color: #f0ddb2;
+  background: rgba(224, 197, 128, 0.08);
 }
 
 @keyframes fadeSlideIn {

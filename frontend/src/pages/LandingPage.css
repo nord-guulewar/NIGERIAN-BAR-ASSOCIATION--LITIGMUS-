@@ -1,7 +1,9 @@
 /* ===== Landing Page — Full Layout ===== */
 .landing-page {
   min-height: 100vh;
-  background: #fffdf8;
+  background:
+    radial-gradient(circle at top left, rgba(224, 197, 128, 0.12), transparent 24%),
+    linear-gradient(180deg, #07101c 0%, #08111f 100%);
 }
 
 html {
@@ -444,7 +446,7 @@ html {
 /* ===== Stats Section ===== */
 .stats-section {
   padding: 48px 24px;
-  background: #f6f1e8;
+  background: linear-gradient(180deg, rgba(8, 17, 31, 0.98) 0%, rgba(16, 27, 45, 0.96) 100%);
 }
 
 .stats-grid {
@@ -458,9 +460,10 @@ html {
 .stat-card {
   text-align: center;
   padding: 28px 20px;
-  background: white;
+  background: rgba(16, 27, 45, 0.94);
+  border: 1px solid rgba(37, 52, 77, 0.86);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.32);
   transition: transform 0.25s ease;
 }
 
@@ -471,20 +474,20 @@ html {
 .stat-number {
   font-size: 2.8rem;
   font-weight: 900;
-  color: #1e293b;
+  color: #f0ddb2;
   margin-bottom: 4px;
 }
 
 .stat-label {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #444;
+  color: #dbe6f4;
 }
 
 /* ===== Features Section ===== */
 .features-section {
   padding: 80px 24px;
-  background: #fffdf8;
+  background: linear-gradient(180deg, rgba(16, 27, 45, 0.98) 0%, rgba(8, 17, 31, 0.98) 100%);
 }
 
 .features-grid {
@@ -498,25 +501,25 @@ html {
 .feature-card {
   padding: 28px;
   border-radius: 14px;
-  background: #f8f9fa;
+  background: rgba(16, 27, 45, 0.9);
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 1px solid rgba(37, 52, 77, 0.86);
 }
 
 .feature-card:hover {
-  background: white;
-  border-color: #1e293b;
+  background: rgba(20, 33, 54, 0.96);
+  border-color: rgba(224, 197, 128, 0.42);
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 18px 38px rgba(2, 6, 23, 0.4);
 }
 
 .feature-icon {
-  color: #1e293b;
+  color: #f0ddb2;
   margin-bottom: 16px;
 }
 
 .feature-icon svg {
-  color: #1e293b !important;
+  color: #f0ddb2 !important;
 }
 
 .hero-badge svg,
@@ -534,7 +537,7 @@ html {
 .hero-stats svg,
 .scroll-indicator svg,
 .facts-controls svg {
-  color: #1e293b !important;
+  color: #f0ddb2 !important;
 }
 
 .footer-compliance-link svg {
@@ -544,20 +547,20 @@ html {
 .feature-title {
   font-size: 1.15rem;
   font-weight: 700;
-  color: #1e293b;
+  color: #f8fafc;
   margin-bottom: 8px;
 }
 
 .feature-description {
   font-size: 0.9rem;
-  color: #666;
+  color: #a9bad0;
   line-height: 1.6;
 }
 
 /* ===== Public Services Section ===== */
 .public-services-section {
   padding: 80px 24px;
-  background: linear-gradient(180deg, #f6f1e8 0%, #fffdf8 100%);
+  background: linear-gradient(180deg, rgba(8, 17, 31, 0.98) 0%, rgba(16, 27, 45, 0.98) 100%);
 }
 
 .public-services-grid {
@@ -569,20 +572,20 @@ html {
 }
 
 .public-service-card {
-  background: white;
+  background: rgba(16, 27, 45, 0.94);
   border-radius: 16px;
   padding: 32px 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.34);
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 1px solid rgba(37, 52, 77, 0.86);
   text-align: center;
 }
 
 .public-service-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
-  border-color: #1e293b;
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.42);
+  border-color: rgba(224, 197, 128, 0.42);
 }
 
 .public-service-icon {
@@ -594,21 +597,21 @@ html {
 }
 
 .public-service-card h3 {
-  color: #1e293b;
+  color: #f8fafc;
   font-weight: 700;
   font-size: 1.1rem;
   margin-bottom: 10px;
 }
 
 .public-service-card p {
-  color: #666;
+  color: #a9bad0;
   font-size: 0.88rem;
   line-height: 1.6;
   margin-bottom: 16px;
 }
 
 .service-link {
-  color: #1e293b;
+  color: #f0ddb2;
   font-weight: 600;
   font-size: 0.85rem;
 }

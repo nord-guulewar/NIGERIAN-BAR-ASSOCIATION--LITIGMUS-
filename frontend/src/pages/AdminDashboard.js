@@ -390,7 +390,7 @@ const AdminDashboard = () => {
 
         {/* Tabs */}
         <div className="nba-card overflow-hidden">
-          <div className="flex border-b border-gray-200 bg-white overflow-x-auto">
+          <div className="flex border-b border-gray-200 bg-transparent overflow-x-auto">
             {[
               { id: 'onboarding', label: 'Onboarding', icon: '👤' },
               { id: 'pending', label: 'Pending', icon: '⏳' },
