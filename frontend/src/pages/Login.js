@@ -301,15 +301,15 @@ if (result.success) {
                   <path d="M32 16 L28 20 L26 32 L26 42 L28 44 L36 44 L38 42 L38 32 L36 20 Z" fill="white"/>
                   <line x1="28" y1="20" x2="20" y2="24" stroke="white" strokeWidth="1.5"/>
                   <line x1="36" y1="20" x2="44" y2="24" stroke="white" strokeWidth="1.5"/>
-                  <circle cx="16" cy="24" r="3" fill="none" stroke="#d4af37" strokeWidth="1"/>
-                  <line x1="13" y1="24" x2="19" y2="24" stroke="#d4af37" strokeWidth="1"/>
-                  <circle cx="24" cy="24" r="3" fill="none" stroke="#d4af37" strokeWidth="1"/>
-                  <line x1="21" y1="24" x2="27" y2="24" stroke="#d4af37" strokeWidth="1"/>
-                  <line x1="16" y1="24" x2="24" y2="24" stroke="#d4af37" strokeWidth="1.5"/>
-                  <line x1="20" y1="24" x2="20" y2="26" stroke="#d4af37" strokeWidth="1"/>
-                  <line x1="44" y1="24" x2="44" y2="38" stroke="#d4af37" strokeWidth="2"/>
+                  <circle cx="16" cy="24" r="3" fill="none" stroke="white" strokeWidth="1"/>
+                  <line x1="13" y1="24" x2="19" y2="24" stroke="white" strokeWidth="1"/>
+                  <circle cx="24" cy="24" r="3" fill="none" stroke="white" strokeWidth="1"/>
+                  <line x1="21" y1="24" x2="27" y2="24" stroke="white" strokeWidth="1"/>
+                  <line x1="16" y1="24" x2="24" y2="24" stroke="white" strokeWidth="1.5"/>
+                  <line x1="20" y1="24" x2="20" y2="26" stroke="white" strokeWidth="1"/>
+                  <line x1="44" y1="24" x2="44" y2="38" stroke="white" strokeWidth="2"/>
                   <rect x="42.5" y="22" width="3" height="3" fill="white"/>
-                  <line x1="40" y1="24" x2="48" y2="24" stroke="#d4af37" strokeWidth="1.5"/>
+                  <line x1="40" y1="24" x2="48" y2="24" stroke="white" strokeWidth="1.5"/>
                   <rect x="24" y="44" width="16" height="2" fill="white"/>
                   <path d="M22 46 L42 46 L40 48 L24 48 Z" fill="white"/>
                 </svg>

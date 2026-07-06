@@ -20,16 +20,16 @@
 }
 
 .judge-register-header p {
-  color: #a9bad0;
+  color: #dbe6f4;
   margin-bottom: 0;
 }
 
 .judge-register-footer {
-  color: #a9bad0;
+  color: #dbe6f4;
 }
 
 .judge-register-footer .btn-link {
-  color: #f0ddb2;
+  color: #f8fafc;
   font-weight: 700;
   text-decoration: none;
 }
@@ -43,6 +43,12 @@
 .staff-id-panel h4 {
   color: #f8fafc;
   font-weight: 800;
+}
+
+.staff-id-panel,
+.generated-id-display,
+.recovery-info {
+  color: #f8fafc;
 }
 
 .generated-id-display {

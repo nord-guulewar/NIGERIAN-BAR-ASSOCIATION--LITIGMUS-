@@ -85,17 +85,17 @@
 }
 
 .judge-hero-button-primary {
-  background: linear-gradient(135deg, #e0c580 0%, #b99237 100%);
-  border-color: rgba(224, 197, 128, 0.32);
-  color: #08111f;
+  background: rgba(16, 27, 45, 0.94);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #f8fafc;
 }
 
 .judge-hero-button-primary:hover,
 .judge-hero-button-primary:focus,
 .judge-hero-button-primary:active {
-  background: linear-gradient(135deg, #f0ddb2 0%, #c9a44c 100%) !important;
-  border-color: rgba(240, 221, 178, 0.55) !important;
-  color: #08111f !important;
+  background: rgba(20, 33, 54, 0.98) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  color: #f8fafc !important;
 }
 
 .judge-hero-button-secondary {
@@ -128,7 +128,7 @@
 }
 
 .judge-welcome-icon {
-  color: #e0c580;
+  color: #f8fafc;
   margin-bottom: 16px;
 }
 
@@ -183,8 +183,8 @@
 
 .section-heading span {
   display: inline-block;
-  color: #f0ddb2;
-  background: rgba(224, 197, 128, 0.12);
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 999px;
   padding: 7px 14px;
   font-weight: 800;
@@ -234,8 +234,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 16px;
-  background: rgba(224, 197, 128, 0.12);
-  color: #f0ddb2;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
   margin-bottom: 20px;
 }
 
@@ -290,8 +290,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e0c580 0%, #b99237 100%);
-  color: #08111f;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
   font-weight: 900;
   flex: 0 0 auto;
 }
