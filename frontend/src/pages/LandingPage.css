@@ -319,15 +319,15 @@ html {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: rgba(201, 164, 76, 0.18);
-  color: #e0c580;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .facts-icon svg {
-  color: #e0c580 !important;
+  color: #f8fafc !important;
 }
 
 .facts-category {
@@ -335,7 +335,7 @@ html {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  color: #e0c580;
+  color: #f8fafc;
 }
 
 .facts-content {
@@ -347,7 +347,7 @@ html {
 }
 
 .fact-quote-icon {
-  color: rgba(201, 164, 76, 0.4) !important;
+  color: rgba(248, 250, 252, 0.4) !important;
 }
 
 .fact-visible {
@@ -368,7 +368,7 @@ html {
 }
 
 .fact-quote-icon {
-  color: rgba(201, 164, 76, 0.4);
+  color: rgba(248, 250, 252, 0.4);
   margin-bottom: 12px;
 }
 
@@ -474,7 +474,7 @@ html {
 .stat-number {
   font-size: 2.8rem;
   font-weight: 900;
-  color: #f0ddb2;
+  color: #f8fafc;
   margin-bottom: 4px;
 }
 
@@ -514,12 +514,12 @@ html {
 }
 
 .feature-icon {
-  color: #f0ddb2;
+  color: #f8fafc;
   margin-bottom: 16px;
 }
 
 .feature-icon svg {
-  color: #f0ddb2 !important;
+  color: #f8fafc !important;
 }
 
 .hero-badge svg,
@@ -531,17 +531,17 @@ html {
 }
 
 .hero-badge svg {
-  color: #e0c580 !important;
+  color: #f8fafc !important;
 }
 
 .hero-stats svg,
 .scroll-indicator svg,
 .facts-controls svg {
-  color: #f0ddb2 !important;
+  color: #f8fafc !important;
 }
 
 .footer-compliance-link svg {
-  color: #e0c580 !important;
+  color: #f8fafc !important;
 }
 
 .feature-title {
@@ -611,7 +611,7 @@ html {
 }
 
 .service-link {
-  color: #f0ddb2;
+  color: #f8fafc;
   font-weight: 600;
   font-size: 0.85rem;
 }
@@ -670,13 +670,16 @@ html {
 }
 
 .btn-primary {
-  background: white;
-  color: #1e293b;
+  background: rgba(16, 27, 45, 0.94);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.34);
+  background: rgba(20, 33, 54, 0.98);
+  color: #f8fafc;
 }
 
 .btn-outline {
