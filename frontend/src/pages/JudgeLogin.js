@@ -244,8 +244,6 @@ const JudgeLogin = () => {
                     style={{ textAlign: 'center', fontSize: '1.35rem', letterSpacing: '0.55rem' }}
                   />
                 </Form.Group>
-
-                <Button variant="primary" type="submit" className="w-100 mb-2" disabled={loading || verificationCode.length !== 6}>
                 <Button variant="primary" type="submit" className="w-100 mb-2 judge-auth-action-button" disabled={loading || verificationCode.length !== 6}>
                   {loading ? <><Spinner animation="border" size="sm" className="me-2" />Verifying Judge Session</> : 'Verify & Enter Dashboard'}
                 </Button>
