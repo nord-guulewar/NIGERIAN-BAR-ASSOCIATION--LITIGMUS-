@@ -39,13 +39,13 @@ const JudgeOnboarding = () => {
                 deliver judgments, adjourn hearings, transfer matters, and communicate with authorized court staff.
               </p>
               <div className="judge-hero-actions">
-                <Button variant="light" size="lg" onClick={() => navigate('/judge-register')}>
+                <Button className="judge-hero-button judge-hero-button-primary" size="lg" onClick={() => navigate('/judge-register')}>
                   Register as Judge
                 </Button>
-                <Button variant="outline-light" size="lg" onClick={() => navigate('/judge-login')}>
+                <Button className="judge-hero-button judge-hero-button-secondary" size="lg" onClick={() => navigate('/judge-login')}>
                   Judge Login
                 </Button>
-                <Button variant="outline-light" size="lg" onClick={() => navigate('/')}>
+                <Button className="judge-hero-button judge-hero-button-secondary" size="lg" onClick={() => navigate('/')}>
                   Back to Home
                 </Button>
               </div>

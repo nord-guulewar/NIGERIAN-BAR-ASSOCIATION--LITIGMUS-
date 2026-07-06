@@ -1,7 +1,9 @@
 .judge-onboarding-page {
   min-height: 100vh;
-  background: #f6f1e8;
-  color: #1f2937;
+  background:
+    radial-gradient(circle at top left, rgba(224, 197, 128, 0.12), transparent 24%),
+    linear-gradient(180deg, #07101c 0%, #08111f 100%);
+  color: #dbe6f4;
 }
 
 .judge-hero-section {
@@ -66,16 +68,61 @@
   flex-wrap: wrap;
 }
 
+.judge-hero-button {
+  min-width: 190px;
+  border-radius: 999px;
+  padding: 0.95rem 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease, border-color 0.22s ease, color 0.22s ease;
+}
+
+.judge-hero-button:hover,
+.judge-hero-button:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(2, 6, 23, 0.42);
+}
+
+.judge-hero-button-primary {
+  background: linear-gradient(135deg, #e0c580 0%, #b99237 100%);
+  border-color: rgba(224, 197, 128, 0.32);
+  color: #08111f;
+}
+
+.judge-hero-button-primary:hover,
+.judge-hero-button-primary:focus,
+.judge-hero-button-primary:active {
+  background: linear-gradient(135deg, #f0ddb2 0%, #c9a44c 100%) !important;
+  border-color: rgba(240, 221, 178, 0.55) !important;
+  color: #08111f !important;
+}
+
+.judge-hero-button-secondary {
+  background: rgba(8, 17, 31, 0.28);
+  border-color: rgba(224, 197, 128, 0.36);
+  color: #f8fafc;
+  backdrop-filter: blur(10px);
+}
+
+.judge-hero-button-secondary:hover,
+.judge-hero-button-secondary:focus,
+.judge-hero-button-secondary:active {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.92) 0%, rgba(16, 27, 45, 0.98) 100%) !important;
+  border-color: rgba(224, 197, 128, 0.7) !important;
+  color: #f8fafc !important;
+}
+
 .judge-welcome-card {
-  border: none;
+  border: 1px solid rgba(52, 71, 102, 0.7);
   border-radius: 28px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
-  background: rgba(255, 255, 255, 0.96);
-  color: #1f2937;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+  background: rgba(16, 27, 45, 0.94);
+  color: #dbe6f4;
 }
 
 .judge-welcome-card h2 {
-  color: #1e293b;
+  color: #f8fafc;
   font-weight: 800;
   margin-bottom: 14px;
 }
@@ -96,7 +143,7 @@
   align-items: center;
   gap: 10px;
   padding: 10px 0;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgba(52, 71, 102, 0.7);
   font-weight: 600;
 }
 
@@ -112,14 +159,15 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #1e293b;
-  color: white;
+  background: linear-gradient(135deg, #e0c580 0%, #b99237 100%);
+  color: #08111f;
   font-size: 13px;
   flex: 0 0 auto;
 }
 
 .judge-section {
   padding: 86px 0;
+  background: transparent;
 }
 
 .section-heading {
@@ -135,8 +183,8 @@
 
 .section-heading span {
   display: inline-block;
-  color: #a9852f;
-  background: rgba(201, 164, 76, 0.14);
+  color: #f0ddb2;
+  background: rgba(224, 197, 128, 0.12);
   border-radius: 999px;
   padding: 7px 14px;
   font-weight: 800;
@@ -147,7 +195,7 @@
 }
 
 .section-heading h2 {
-  color: #1e293b;
+  color: #f8fafc;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 900;
   margin-bottom: 16px;
@@ -155,7 +203,7 @@
 }
 
 .section-heading p {
-  color: #64748b;
+  color: #a9bad0;
   font-size: 1.05rem;
   line-height: 1.8;
   margin: 0;
@@ -164,10 +212,10 @@
 .judge-info-card,
 .judge-steps-card,
 .judge-security-card {
-  border: none;
+  border: 1px solid rgba(37, 52, 77, 0.82);
   border-radius: 24px;
-  box-shadow: 0 16px 45px rgba(15, 41, 24, 0.08);
-  background: white;
+  box-shadow: 0 16px 45px rgba(2, 6, 23, 0.34);
+  background: rgba(16, 27, 45, 0.92);
   height: 100%;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
@@ -175,7 +223,8 @@
 .judge-info-card:hover,
 .judge-security-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 22px 55px rgba(15, 41, 24, 0.14);
+  box-shadow: 0 22px 55px rgba(2, 6, 23, 0.46);
+  border-color: rgba(224, 197, 128, 0.28);
 }
 
 .judge-card-icon {
@@ -185,27 +234,27 @@
   align-items: center;
   justify-content: center;
   border-radius: 16px;
-  background: rgba(30, 41, 59, 0.08);
-  color: #1e293b;
+  background: rgba(224, 197, 128, 0.12);
+  color: #f0ddb2;
   margin-bottom: 20px;
 }
 
 .judge-info-card h3,
 .judge-security-card h3 {
-  color: #1e293b;
+  color: #f8fafc;
   font-weight: 800;
   margin-bottom: 10px;
 }
 
 .judge-info-card p,
 .judge-security-card p {
-  color: #64748b;
+  color: #a9bad0;
   line-height: 1.7;
   margin-bottom: 0;
 }
 
 .judge-steps-section {
-  background: linear-gradient(180deg, #fffdf8 0%, #f6f1e8 100%);
+  background: linear-gradient(180deg, rgba(8, 17, 31, 0.28) 0%, rgba(16, 27, 45, 0.22) 100%);
 }
 
 .judge-steps-card {
@@ -225,8 +274,8 @@
   align-items: flex-start;
   padding: 18px;
   border-radius: 18px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: rgba(8, 17, 31, 0.72);
+  border: 1px solid rgba(37, 52, 77, 0.88);
   margin-bottom: 14px;
 }
 
@@ -241,22 +290,36 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #1e293b;
-  color: white;
+  background: linear-gradient(135deg, #e0c580 0%, #b99237 100%);
+  color: #08111f;
   font-weight: 900;
   flex: 0 0 auto;
 }
 
 .judge-steps-list li p {
   margin: 2px 0 0;
-  color: #334155;
+  color: #dbe6f4;
   line-height: 1.65;
   font-weight: 600;
 }
 
 .judge-security-section {
   padding: 86px 0 100px;
-  background: #f6f1e8;
+  background: transparent;
+}
+
+@media (max-width: 767.98px) {
+  .judge-hero-section {
+    padding: 88px 0 96px;
+  }
+
+  .judge-hero-actions {
+    flex-direction: column;
+  }
+
+  .judge-hero-button {
+    width: 100%;
+  }
 }
 
 .judge-security-card {
