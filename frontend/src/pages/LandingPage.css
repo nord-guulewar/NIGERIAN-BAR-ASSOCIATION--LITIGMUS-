@@ -683,18 +683,22 @@ html {
 }
 
 .btn-outline:hover {
-  background: white;
-  color: #1e293b;
+  background: rgba(15, 23, 42, 0.92);
+  color: #f8fafc;
+  border-color: rgba(224, 197, 128, 0.64);
 }
 
 .btn-light {
-  background: white;
-  color: #1e293b;
+  background: linear-gradient(135deg, #e0c580 0%, #b99237 100%);
+  color: #08111f;
+  border: 2px solid rgba(224, 197, 128, 0.34);
 }
 
 .btn-light:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.28);
+  background: linear-gradient(135deg, #f0ddb2 0%, #c9a44c 100%);
+  color: #08111f;
 }
 
 .btn-lg {

@@ -117,7 +117,7 @@ const ForgotPassword = () => {
 
           <Form onSubmit={handleSubmit}>
             {/* Info Box */}
-            <div className="alert alert-light border mb-4">
+            <div className="alert alert-info border mb-4">
               <p className="mb-0 small">
                 Enter your email address and we'll send you a link to reset your password.
               </p>
@@ -166,7 +166,7 @@ const ForgotPassword = () => {
         </Card.Body>
 
         {/* Footer */}
-        <Card.Footer className="bg-light py-3 text-center">
+        <Card.Footer className="py-3 text-center">
           <button
             className="btn btn-link text-decoration-none d-inline-flex align-items-center"
             onClick={() => navigate('/login')}

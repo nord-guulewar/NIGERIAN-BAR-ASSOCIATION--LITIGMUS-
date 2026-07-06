@@ -204,7 +204,7 @@ const ResetPassword = () => {
               </Form.Group>
 
               {/* Password Requirements */}
-              <div className="alert alert-light border mb-3">
+              <div className="alert alert-info border mb-3">
                 <small className="fw-semibold">Password Requirements:</small>
                 <ul className="mb-0 mt-2" style={{ fontSize: '13px' }}>
                   <li>At least 8 characters long</li>
@@ -247,7 +247,7 @@ const ResetPassword = () => {
         </Card.Body>
 
         {/* Footer */}
-        <Card.Footer className="bg-light py-3 text-center">
+        <Card.Footer className="py-3 text-center">
           <button
             className="btn btn-link text-decoration-none d-inline-flex align-items-center"
             onClick={() => navigate('/login')}

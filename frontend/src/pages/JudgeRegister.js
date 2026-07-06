@@ -461,13 +461,13 @@ const JudgeRegister = () => {
                       <CheckCircle size={16} className="me-2" />
                       Your Staff ID has been generated successfully!
                     </Alert>
-                    <div className="generated-id-display p-3" style={{ background: '#f8f9fa', borderRadius: 12, border: '2px solid #d4af37' }}>
+                    <div className="generated-id-display p-3" style={{ background: 'rgba(16, 27, 45, 0.92)', borderRadius: 12, border: '2px solid #d4af37' }}>
                       <div className="d-flex align-items-center justify-content-between">
                         <div>
                           <small className="text-muted d-block mb-1">Your Unique Staff ID</small>
                           <code className="fs-4 fw-bold" style={{ color: '#1a472a', letterSpacing: 2 }}>{generatedStaffId}</code>
                         </div>
-                        <Button variant="light" size="sm" onClick={copyStaffId} title="Copy to clipboard">
+                        <Button variant="outline-warning" size="sm" onClick={copyStaffId} title="Copy to clipboard">
                           {staffIdCopied ? <CheckCircle size={18} className="text-success" /> : <Copy size={18} />}
                         </Button>
                       </div>
