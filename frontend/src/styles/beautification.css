@@ -142,15 +142,15 @@ html[data-theme='dark'] body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%);
-  border-color: rgba(15, 23, 42, 0.28);
-  color: var(--text-inverse);
+  background: linear-gradient(135deg, #162132 0%, #0b1020 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-800) 100%);
-  border-color: rgba(15, 23, 42, 0.38);
-  color: var(--text-inverse);
+  background: linear-gradient(135deg, #1e293b 0%, #162132 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
 }
 
 .btn-danger {
@@ -163,14 +163,15 @@ html[data-theme='dark'] body {
 }
 
 .btn-success {
-  background: linear-gradient(135deg, var(--accent-500) 0%, var(--accent-600) 100%);
-  border-color: rgba(169, 133, 47, 0.35);
-  color: var(--primary-950);
+  background: linear-gradient(135deg, #162132 0%, #0b1020 100%);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
 }
 
 .btn-success:hover {
-  background: linear-gradient(135deg, var(--accent-400) 0%, var(--accent-500) 100%);
-  color: var(--primary-950);
+  background: linear-gradient(135deg, #1e293b 0%, #162132 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
 }
 
 .btn-outline-danger {
