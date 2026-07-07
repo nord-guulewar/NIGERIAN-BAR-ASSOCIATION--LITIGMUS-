@@ -30,7 +30,7 @@ const startServer = async () => {
   try {
     await ensureAppReady();
     const { app } = require('./app');
-    const PORT = process.env.PORT || 5000;
+    const PORT = process.env.PORT || 3000;
 
     server = app.listen(PORT, () => {
       console.log(`NBA LITIGMUS Server running on port ${PORT}`);
